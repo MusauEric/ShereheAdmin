@@ -1,0 +1,159 @@
+{
+  "project_info": {
+    "project_number": "126519120934",
+    "firebase_url": "https://hospital-management-syst-211b5.firebaseio.com",
+    "project_id": "hospital-management-syst-211b5",
+    "storage_bucket": "hospital-management-syst-211b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126519120934:android:0c4434f35c029e435fc2e7",
+        "android_client_info": {
+          "package_name": "com.jettech.medical"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126519120934-jflh4r9nmphdauv0qvp11r4b0kvqe2er.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jettech.medical",
+            "certificate_hash": "f545059cc16b578d27b014b175b84197f7dfa08f"
+          }
+        },
+        {
+          "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcot5qZpSMQFE9SO_JwKLJRsSYVIgTKZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126519120934:android:9a0f58c1a3e47e9e5fc2e7",
+        "android_client_info": {
+          "package_name": "com.jettech.medrec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126519120934-jndgtrmd2km5q15isl7k7c73ibl64s3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jettech.medrec",
+            "certificate_hash": "254677ef26e15f585ff5f3f1f010dd82d52fc840"
+          }
+        },
+        {
+          "client_id": "126519120934-o3feqlva326l8hvutoguk6f6re3qtqgt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jettech.medrec",
+            "certificate_hash": "f545059cc16b578d27b014b175b84197f7dfa08f"
+          }
+        },
+        {
+          "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcot5qZpSMQFE9SO_JwKLJRsSYVIgTKZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126519120934:android:30583d97ba6050c95fc2e7",
+        "android_client_info": {
+          "package_name": "com.jettech.sherehe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126519120934-gqus3oksvjabel55vlesh9pkoo9e1pkg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jettech.sherehe",
+            "certificate_hash": "254677ef26e15f585ff5f3f1f010dd82d52fc840"
+          }
+        },
+        {
+          "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcot5qZpSMQFE9SO_JwKLJRsSYVIgTKZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126519120934:android:87c78deee1bb0b1f5fc2e7",
+        "android_client_info": {
+          "package_name": "com.jettech.sherehe20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcot5qZpSMQFE9SO_JwKLJRsSYVIgTKZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126519120934-ipdsfrf882m1p7ph21pm2e2ar1989856.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
