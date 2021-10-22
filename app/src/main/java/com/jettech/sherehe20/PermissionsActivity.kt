@@ -89,7 +89,7 @@ class PermissionsActivity : AppCompatActivity() {
 
 
 
-            startActivity(Intent(this@PermissionsActivity, MapActivity::class.java))
+            startActivity(Intent(this@PermissionsActivity, MainActivity::class.java))
             finish()
 
             progressDialog.dismiss()
@@ -110,7 +110,7 @@ class PermissionsActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             when (resultCode) {
                 RESULT_OK -> {
-                    startActivity(Intent(this@PermissionsActivity, MapActivity::class.java))
+                    startActivity(Intent(this@PermissionsActivity, MainActivity::class.java))
                     finish()
                 }
                 RESULT_CANCELED -> {
@@ -124,7 +124,7 @@ class PermissionsActivity : AppCompatActivity() {
             if (!isGpsEnabled) {
                 openGpsEnableSetting()
             } else {
-                startActivity(Intent(this@PermissionsActivity, MapActivity::class.java))
+                startActivity(Intent(this@PermissionsActivity, MainActivity::class.java))
                 finish()
             }
         }
