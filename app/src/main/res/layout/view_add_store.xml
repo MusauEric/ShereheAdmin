@@ -42,7 +42,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Srore Address(Location)"
+                            android:text="Store Address(Location)"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16dp" />
 
@@ -67,8 +67,9 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/addressLocation"
                     android:gravity="center"
+                    android:textColor="@color/pink"
                     android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,7 +123,7 @@
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/textMe"
+                            android:id="@+id/storeTitleName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
@@ -176,7 +177,7 @@
 
                         <RadioButton
 
-                            android:id="@+id/radiosafaricom"
+                            android:id="@+id/radioTill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="false"
@@ -184,7 +185,7 @@
 
                         <RadioButton
 
-                            android:id="@+id/radioairtel"
+                            android:id="@+id/radioBill"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAllCaps="true" />
@@ -222,6 +223,8 @@
 
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/businessL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
@@ -229,20 +232,37 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:hint="enter number"
+
                     app:hintTextColor="@color/colorPrimary"
 
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/storeTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/colorPrimary" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:hintTextColor="@color/colorPrimary"-->
+
+<!--                    >-->
+
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/tillPaybill"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:inputType="number"-->
+<!--                        android:textColor="@color/colorPrimary" />-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
             </LinearLayout>
 
@@ -259,7 +279,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/exit"
+                    android:id="@+id/done"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

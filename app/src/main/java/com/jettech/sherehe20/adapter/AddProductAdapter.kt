@@ -38,10 +38,10 @@ class AddProductAdapter(var context: Context, addedproductsList: List<AddProduct
         holder.itemView.setOnClickListener {
             val i = Intent(context, AddProduct::class.java)
             i.putExtra("name", addproductList[position].name)
-            i.putExtra("price", addproductList[position].price)
-            i.putExtra("desc", addproductList[position].description)
-            i.putExtra("qty", addproductList[position].quantity)
-            i.putExtra("unit", addproductList[position].unit)
+//            i.putExtra("price", addproductList[position].price)
+//            i.putExtra("desc", addproductList[position].description)
+//            i.putExtra("qty", addproductList[position].quantity)
+//            i.putExtra("unit", addproductList[position].unit)
             context.startActivity(i)
         }
     }

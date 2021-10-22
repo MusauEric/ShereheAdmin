@@ -3,20 +3,26 @@ package com.jettech.sherehe20
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -32,6 +38,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import es.dmoral.toasty.Toasty
 import java.io.IOException
 import java.util.*
 import kotlin.math.log
@@ -53,11 +60,17 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
     private var mMap: GoogleMap? = null
     private var onCameraIdleListener: OnCameraIdleListener? = null
 
+    var addressName :String =""
+    var lat :String =""
+    var long :String =""
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+
+        val setLocation = findViewById<Button>(R.id.setLocation)
 
 
         if (Build.VERSION.SDK_INT < 22) setStatusBarTranslucent(false) else setStatusBarTranslucent(
@@ -70,6 +83,19 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
 
 
         configureCameraIdle()
+
+        setLocation.setOnClickListener {
+
+            if (lat.equals("")||long.equals("")||addressName.equals("")){
+                Toasty.error(
+                    this@MapActivity, "Please set your address", Toasty.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }else{
+                getAddress ()
+            }
+
+        }
 
 
     }
@@ -101,12 +127,13 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
                 if (addressList != null && addressList.size > 0) {
                     val locality = addressList[0].getAddressLine(0)
                     val country = addressList[0].countryName
-                    val  lat =   addressList[0].latitude
-                    val  long =   addressList[0].longitude
+                      lat =   addressList[0].latitude.toString()
+                      long =   addressList[0].longitude.toString()
 
                     val result = findViewById<TextView>(R.id.drag_result)
 
                     if (!locality.isEmpty() && !country.isEmpty()) {
+                        addressName = "$locality  $country"
                         result!!.text = "$locality  $country"
                     }
                 }
@@ -235,6 +262,33 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+
+    }
+
+
+    private fun getAddress () {
+
+       val progressDialog = Dialog(this)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
+        progressTv.textSize = 15F
+
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val i = Intent(this, MainActivity::class.java)
+        i.putExtra("latitude", lat.toString())
+        i.putExtra("longitude", long)
+        i.putExtra("address", addressName)
+        this.startActivity(i)
+        finish()
+
+
+        progressDialog.dismiss()
 
     }
 
