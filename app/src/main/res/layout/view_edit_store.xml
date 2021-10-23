@@ -23,7 +23,6 @@
 
 
             <LinearLayout
-                android:id="@+id/setLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -284,7 +283,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/done"
+                    android:id="@+id/doneE"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -311,7 +310,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/cancel"
+                    android:id="@+id/cancelE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

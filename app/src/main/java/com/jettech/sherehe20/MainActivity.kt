@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toasty.success(
                         this@MainActivity,
-                        "Garage Opened",
+                        "Store Opened",
                         Toasty.LENGTH_LONG
                     ).show()
 
@@ -280,7 +280,7 @@ class MainActivity : AppCompatActivity() {
 
         builder.apply {
 
-            val addAddress = dialogView.findViewById<Button>(R.id.setLocation)
+            val addAddress = dialogView.findViewById<Button>(R.id.setNewLocation)
             val storeTitle = dialogView.findViewById<EditText>(R.id.storeTitle)
             val storeTitleName = dialogView.findViewById<EditText>(R.id.storeTitleName)
 
@@ -525,13 +525,13 @@ class MainActivity : AppCompatActivity() {
 
         builder.apply {
 
-            val addAddress = dialogView.findViewById<Button>(R.id.setLocation)
+//            val addAddress = dialogView.findViewById<Button>(R.id.setLNewlocation)
             val storeTitleNameE = dialogView.findViewById<EditText>(R.id.storeTitleNameEdit)
             val storeTillE = dialogView.findViewById<EditText>(R.id.storeTillE)
 
             val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radioGroupE)
-            val done = dialogView.findViewById<Button>(R.id.done)
-            val cancel = dialogView.findViewById<Button>(R.id.cancel)
+            val done = dialogView.findViewById<Button>(R.id.doneE)
+            val cancel = dialogView.findViewById<Button>(R.id.cancelE)
 
             val addressLoc = dialogView.findViewById<TextView>(R.id.addressLocation)
 
@@ -566,11 +566,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            addAddress.setOnClickListener {
-
-                startActivity(Intent(context, MapActivity::class.java))
-
-            }
+//            addAddress.setOnClickListener {
+//
+//                startActivity(Intent(context, MapActivity::class.java))
+//
+//            }
 
             done.setOnClickListener {
 
