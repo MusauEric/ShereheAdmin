@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.IntentSender
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -15,6 +16,7 @@ import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -32,6 +34,11 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.jettech.sherehe20.utils.Constants
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -63,14 +70,20 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
     var addressName :String =""
     var lat :String =""
     var long :String =""
+    var storeName :String =""
+    var businessNo :String =""
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-
         val setLocation = findViewById<Button>(R.id.setLocation)
+        val setEditLocation = findViewById<Button>(R.id.setEditLocation)
+
+        val sharedPref: SharedPreferences =
+            getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val edit: String = sharedPref.getString(Constants.EDIT, "").toString().trim()
 
 
         if (Build.VERSION.SDK_INT < 22) setStatusBarTranslucent(false) else setStatusBarTranslucent(
@@ -80,6 +93,29 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         fusedLocationProviderClient = FusedLocationProviderClient(this)
+
+        if (edit.equals("1")){
+            val setLocation = findViewById<Button>(R.id.setLocation)
+            val setEditLocation = findViewById<Button>(R.id.setEditLocation)
+            val o = intent
+            storeName = o.getStringExtra("storeName")!!
+            businessNo = o.getStringExtra("businessNo")!!
+
+            setEditLocation.visibility = View.VISIBLE
+            setLocation.visibility =View.GONE
+
+        }else{
+            val setLocation = findViewById<Button>(R.id.setLocation)
+            val setEditLocation = findViewById<Button>(R.id.setEditLocation)
+
+            Toasty.error(
+                this@MapActivity, "Please set your address", Toasty.LENGTH_LONG
+            ).show()
+
+            setLocation.visibility =View.VISIBLE
+            setEditLocation.visibility = View.GONE
+
+        }
 
 
         configureCameraIdle()
@@ -93,6 +129,19 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
                 return@setOnClickListener
             }else{
                 getAddress ()
+            }
+
+        }
+
+        setEditLocation.setOnClickListener {
+
+            if (lat.equals("")||long.equals("")||addressName.equals("")||storeName.equals(null)||businessNo.equals(null)){
+                Toasty.error(
+                    this@MapActivity, "Please set your address and", Toasty.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }else{
+                setUpdates ()
             }
 
         }
@@ -130,12 +179,22 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
                       lat =   addressList[0].latitude.toString()
                       long =   addressList[0].longitude.toString()
 
+
                     val result = findViewById<TextView>(R.id.drag_result)
 
-                    if (!locality.isEmpty() && !country.isEmpty()) {
-                        addressName = "$locality  $country"
-                        result!!.text = "$locality  $country"
+                    if (locality.isNullOrEmpty()||country.isNullOrEmpty()){
+
+                        Toast.makeText(this, "No current location found", Toast.LENGTH_LONG).show()
+
+                    }else{
+                        if (!locality.isEmpty() && !country.isEmpty()) {
+                            addressName = "$locality  $country"
+                            result!!.text = "$locality  $country"
+                        }
+
                     }
+
+
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -291,6 +350,65 @@ class MapActivity : AppCompatActivity(),  OnMapReadyCallback, PermissionListener
         progressDialog.dismiss()
 
     }
+
+
+    private fun setUpdates () {
+
+        val progressDialog = Dialog(this)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
+        progressTv.textSize = 15F
+
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+
+
+        val updateOwnerdata = hashMapOf(
+            "storename" to storeName,
+            "businessNo" to businessNo,
+            "latCord" to lat,
+            "longCord" to long,
+            "address" to addressName
+
+        )
+        db.collection("storeowner").document(user!!.uid)
+            .set(updateOwnerdata, SetOptions.merge())
+
+        progressDialog.dismiss()
+        Toasty.success(this, "Store updated.", Toast.LENGTH_LONG, true).show()
+        var sharedPref: SharedPreferences = getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val editor = sharedPref.edit()
+        editor.putString(Constants.EDIT,"0")
+        editor.apply()
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
+    }
+//
+//    private var exit: Boolean? = true
+//    override fun onBackPressed() {
+//
+//        if (exit!!) {
+//
+//            if (lat.equals("")||long.equals("")||addressName.equals("")){
+//                Toasty.error(
+//                    this@MapActivity, "Please set your address", Toasty.LENGTH_LONG
+//                ).show()
+//            }else{
+//                getAddress ()
+//            }
+//        } else {
+//            startActivity(Intent(this@MapActivity,MapActivity::class.java))
+//            exit = false
+//        }
+//
+//    }
 
 
 

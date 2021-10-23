@@ -6,5 +6,6 @@ object Constants {
     const val NAME = "NAME"
     const val PASSWORD = "PASSWORD"
     const val EMAIL = "EMAIL"
+    const val EDIT = "EDIT"
 
 }

@@ -3,6 +3,7 @@ package com.jettech.sherehe20
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Color.green
 import android.graphics.Color.red
@@ -29,6 +30,7 @@ import com.google.firebase.ktx.Firebase
 import com.jettech.sherehe20.adapter.AddProductAdapter
 import com.jettech.sherehe20.adapter.LoginAdapter
 import com.jettech.sherehe20.model.AddProduct
+import com.jettech.sherehe20.utils.Constants
 import es.dmoral.toasty.Toasty
 
 class MainActivity : AppCompatActivity() {
@@ -55,35 +57,13 @@ class MainActivity : AppCompatActivity() {
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
         addedProductRecycler = findViewById(R.id.productRec)
+        val editStore = findViewById<LinearLayout>(R.id.editStore)
+        getStoreInfo()
 
 
-        progressDialog = Dialog(this)
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setContentView(R.layout.custom_dialog_progress)
-        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
-        progressTv.text = resources.getString(R.string.loading)
-        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
-        progressTv.textSize = 15F
-
-        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-
-
-
-        db.collection("storeowner").document(user!!.uid).collection("store")
-            .get().addOnSuccessListener { documentSnapshots ->
-                val document = documentSnapshots.documents.toString()
-
-                if (document.contains("[]")) {
-                    addStore()
-                } else {
-
-                    loadStore ()
-
-                }
-
-            }
+        editStore.setOnClickListener {
+            editStore()
+        }
 
 
 // adding data to model
@@ -131,6 +111,39 @@ class MainActivity : AppCompatActivity() {
         addedProductRecycler!!.adapter = addedProductAdapter
     }
 
+    private fun getStoreInfo(){
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+
+        progressDialog = Dialog(this)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
+        progressTv.textSize = 15F
+
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        db.collection("storeowner").document(user!!.uid).collection("store")
+            .get().addOnSuccessListener { documentSnapshots ->
+                val document = documentSnapshots.documents.toString()
+
+                if (document.contains("[]")) {
+
+                    addStore()
+                } else {
+
+                    loadStore()
+                }
+
+            }
+
+    }
+
     private fun addStore() {
 
         progressDialog.dismiss()
@@ -150,7 +163,7 @@ class MainActivity : AppCompatActivity() {
 
         builder.apply {
 
-            val addAddress = dialogView.findViewById<LinearLayout>(R.id.setLocation)
+            val addAddress = dialogView.findViewById<Button>(R.id.setLocation)
             val storeTitle = dialogView.findViewById<EditText>(R.id.storeTitle)
             val storeTitleName = dialogView.findViewById<EditText>(R.id.storeTitleName)
 
@@ -242,14 +255,12 @@ class MainActivity : AppCompatActivity() {
                     progressDialog.show()
 
 
-
-
                     val user = Firebase.auth.currentUser
                     val db = Firebase.firestore
 
                     val data = hashMapOf(
                         "storename" to storeTitleName.text.toString(),
-                        "businessNo" to  businessNumber +" "+storeTitle.text.toString(),
+                        "businessNo" to businessNumber + " " + storeTitle.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
                         "latCord" to latCoord.toString(),
                         "longCord" to longCoord.toString(),
@@ -268,7 +279,7 @@ class MainActivity : AppCompatActivity() {
                                     val updateOwnerdata = hashMapOf(
                                         "storeid" to storeId,
                                         "storename" to storeTitleName.text.toString(),
-                                        "businessNo" to businessNumber +" "+storeTitle.text.toString(),
+                                        "businessNo" to businessNumber + " " + storeTitle.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
                                         "latCord" to latCoord.toString(),
                                         "longCord" to longCoord.toString(),
@@ -278,7 +289,7 @@ class MainActivity : AppCompatActivity() {
                                     db.collection("storeowner").document(user!!.uid)
                                         .set(updateOwnerdata, SetOptions.merge())
                                     alertDialog.dismiss()
-                                    loadStore ()
+                                    loadStore()
                                     progressDialog.dismiss()
                                     Toasty.success(
                                         context,
@@ -304,7 +315,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadStore (){
+    private fun loadStore() {
+
         auth = Firebase.auth
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
@@ -316,12 +328,17 @@ class MainActivity : AppCompatActivity() {
                     val storeName = findViewById<TextView>(R.id.storeName)
                     val storeLocation = findViewById<TextView>(R.id.storeLocation)
                     val status = findViewById<TextView>(R.id.status)
+                    val bSnumber = findViewById<TextView>(R.id.bSnumber)
+
+
 
                     val name = document.data!!["storename"].toString()
                     val storeStatus = document.data!!["status"].toString()
                     val storeAddress = document.data!!["address"].toString()
+                    val tillBill = document.data!!["businessNo"].toString()
                     storeName.text = name
                     storeLocation.text = storeAddress
+                    bSnumber.text = tillBill
 
                     if (storeStatus.contains("0")) {
                         status.text = "CLOSED"
@@ -341,12 +358,153 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
 
+                    progressDialog.dismiss()
+
                 }
             }
 
-        progressDialog.dismiss()
+
 
     }
 
 
+    private fun editStore() {
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+
+        val viewGroup = findViewById<ViewGroup>(R.id.rootEdit)
+        val dialogView: View =
+            LayoutInflater.from(this).inflate(R.layout.view_edit_store, viewGroup, false)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            .setCancelable(false)
+        builder.setView(dialogView)
+
+        val alertDialog: AlertDialog = builder.create()
+
+        var sharedPref: SharedPreferences = getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val editor = sharedPref.edit()
+        editor.putString(Constants.EDIT,"1")
+        editor.apply()
+
+        val docRef = db.collection("storeowner").document(user!!.uid)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val addressLocationE =
+                        dialogView.findViewById<TextView>(R.id.addressLocationEdit)
+                    val storeTitleNameE = dialogView.findViewById<EditText>(R.id.storeTitleNameEdit)
+                    val bsNoE = dialogView.findViewById<TextView>(R.id.bsNo)
+
+                    val name = document.data!!["storename"].toString()
+                    val businessNo = document.data!!["businessNo"].toString()
+                    val storeAddress = document.data!!["address"].toString()
+
+                    addressLocationE.text = storeAddress
+                    storeTitleNameE.setText(name)
+                    bsNoE.text = businessNo
+
+                }
+            }
+
+
+        builder.apply {
+
+            val addAddress = dialogView.findViewById<Button>(R.id.setLocation)
+            val storeTitleNameE = dialogView.findViewById<EditText>(R.id.storeTitleNameEdit)
+            val storeTillE = dialogView.findViewById<EditText>(R.id.storeTillE)
+
+            val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radioGroupE)
+            val done = dialogView.findViewById<Button>(R.id.done)
+            val cancel = dialogView.findViewById<Button>(R.id.cancel)
+
+            val addressLoc = dialogView.findViewById<TextView>(R.id.addressLocation)
+
+
+            radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+                run {
+                    when (checkedId) {
+                        R.id.radioTillE -> {
+                            tillNumber = "TillNumber"
+                            val tillPaybill = dialogView.findViewById<EditText>(R.id.storeTillE)
+                            val bLayout = dialogView.findViewById<LinearLayout>(R.id.businessLE)
+                            bLayout.visibility = View.VISIBLE
+                            tillPaybill.hint = "Enter Till Number"
+
+                            businessNumber = tillNumber
+
+
+                        }
+                        R.id.radioBillE -> {
+                            val tillPaybill = dialogView.findViewById<EditText>(R.id.storeTillE)
+                            payBill = "PayBill"
+                            tillPaybill.hint = "Enter PayBill Number"
+                            val bLayout = dialogView.findViewById<LinearLayout>(R.id.businessLE)
+                            bLayout.visibility = View.VISIBLE
+
+                            businessNumber = payBill
+
+
+                        }
+
+                    }
+                }
+            }
+
+            addAddress.setOnClickListener {
+
+                startActivity(Intent(context, MapActivity::class.java))
+
+            }
+
+            done.setOnClickListener {
+
+                if (storeTitleNameE.text!!.isEmpty()) {
+
+
+                    Toasty.error(
+                        this@MainActivity, "Enter Store Name", Toasty.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
+                }
+                if (storeTillE.text!!.isEmpty()) {
+
+                    Toasty.error(
+                        this@MainActivity, "Enter Business number", Toasty.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
+                } else {
+
+                    progressDialog = Dialog(context)
+                    progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    progressDialog.setContentView(R.layout.custom_dialog_progress)
+                    val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+                    progressTv.text = resources.getString(R.string.loading)
+                    progressTv.setTextColor(ContextCompat.getColor(context, R.color.pink))
+                    progressTv.textSize = 15F
+                    progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    progressDialog.setCancelable(false)
+                    progressDialog.show()
+
+                    val i = Intent(context, MapActivity::class.java)
+                    i.putExtra("storeName", storeTitleNameE.text.toString())
+                    i.putExtra("businessNo",  businessNumber + " " + storeTillE.text.toString())
+                    context.startActivity(i)
+                    progressDialog.dismiss()
+                }
+
+
+            }
+            cancel.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+        }
+
+        alertDialog.show()
+    }
+
+
 }
+
+
