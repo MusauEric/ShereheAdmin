@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="whiskey">
+        <item>Irish Whiskey</item>
+        <item>Blended Whiskey</item>
+        <item>Single malt Whiskey</item>
+        <item>Cognac</item>
+        <item>Vodka</item>
+        <item>Rum</item>
+        <item>Gin</item>
+        <item>Liqueur</item>
+        <item>Tequila</item>
+        <item>Brandy</item>
+    </string-array>
+
+    <string-array name="wines">
+        <item>Dry red wine</item>
+        <item>Sweet red wine</item>
+        <item>Dry white wine</item>
+        <item>Sparkling &amp; Brut wine</item>
+        <item>Sweet white wine</item>
+        <item>Rose wine</item>
+        <item>Blue wine</item>
+        <item>Champagne</item>
+    </string-array>
+
+    <string-array name="beers">
+        <item>Beers</item>
+        <item>Cider</item>
+        <item>Crafted beers</item>
+    </string-array>
+
+
+    <string-array name="softdrinks">
+        <item>Soft drinks</item>
+        <item>Mixers/Cocktails</item>
+        <item>Water</item>
+        <item>Energy drinks</item>
+    </string-array>
+
+
+    <string-array name="quantity">
+        <item>2ltr</item>
+        <item>1.5ltr</item>
+        <item>1.25ltr</item>
+        <item>1ltr</item>
+        <item>750 ml</item>
+        <item>700ml</item>
+        <item>500 ml</item>
+        <item>450ml</item>
+        <item>330 ml</item>
+        <item>300 ml</item>
+        <item>250 ml</item>
+    </string-array>
+
+</resources>
