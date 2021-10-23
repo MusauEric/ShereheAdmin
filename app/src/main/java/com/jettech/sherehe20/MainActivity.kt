@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         val db = Firebase.firestore
         addedProductRecycler = findViewById(R.id.productRec)
         val editStore = findViewById<LinearLayout>(R.id.editStore)
+        val mySwitch = findViewById<Switch>(R.id.ghostMode)
         getStoreInfo()
 
 
@@ -65,42 +68,156 @@ class MainActivity : AppCompatActivity() {
             editStore()
         }
 
+        mySwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+            if (isChecked == true) {
+                openedStore()
+            } else {
+                closeStore()
+            }
+        })
 
-// adding data to model
+
         addProductList = ArrayList<AddProduct>()
         (addProductList as ArrayList<AddProduct>)
             .add(
                 AddProduct(
                     "Whiskey & Spirits",
                     R.drawable.cognacliq
-
                 )
             )
         (addProductList as ArrayList<AddProduct>).add(
             AddProduct(
                 "Wine & Champagne",
                 R.drawable.champagne
-
             )
         )
         (addProductList as ArrayList<AddProduct>).add(
             AddProduct(
                 "Beer,Cider & Alcopop",
                 R.drawable.beer
-
             )
         )
         (addProductList as ArrayList<AddProduct>).add(
             AddProduct(
                 "Soft drinks & mixers",
                 R.drawable.softdrink,
-
                 )
         )
-
         setAddedProductRecycler(addProductList as ArrayList<AddProduct>)
+    }
 
+    private fun openedStore() {
+        auth = Firebase.auth
+        val user = Firebase.auth.currentUser
 
+//        progressDialog = Dialog(this)
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        progressDialog.setContentView(R.layout.custom_dialog_progress)
+//        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+//        progressTv.text = resources.getString(R.string.loading)
+//        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
+//        progressTv.textSize = 15F
+//
+//        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
+
+        val db = Firebase.firestore
+
+        val adminOddsData = hashMapOf(
+            "status" to "1",
+        )
+        db.collection("storeowner").document(user!!.uid)
+
+            .update(adminOddsData as Map<String, Any>)
+            .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                if (task.isSuccessful) {
+                    Toasty.success(
+                        this@MainActivity,
+                        "Garage Opened",
+                        Toasty.LENGTH_LONG
+                    ).show()
+
+                   // progressDialog.dismiss()
+                    loadStore()
+
+                }
+            }).addOnFailureListener(object : OnFailureListener {
+                override fun onFailure(e: Exception) {
+                   // progressDialog.dismiss()
+                }
+            })
+
+    }
+
+    private fun closeStore() {
+        auth = Firebase.auth
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+//        progressDialog = Dialog(this)
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        progressDialog.setContentView(R.layout.custom_dialog_progress)
+//        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+//        progressTv.text = resources.getString(R.string.loading)
+//        progressTv.setTextColor(ContextCompat.getColor(this, R.color.pink))
+//        progressTv.textSize = 15F
+//
+//        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
+
+        val adminOddsData = hashMapOf(
+            "status" to "0",
+        )
+        db.collection("storeowner").document(user!!.uid)
+            .update(adminOddsData as Map<String, Any>)
+            .addOnCompleteListener(OnCompleteListener<Void?> { task ->
+                if (task.isSuccessful) {
+                    Toasty.success(
+                        this@MainActivity,
+                        "Store Closed",
+                        Toasty.LENGTH_LONG
+                    ).show()
+                   // progressDialog.dismiss()
+                    loadStore()
+
+                }
+            }).addOnFailureListener(object : OnFailureListener {
+                override fun onFailure(e: Exception) {
+                   // progressDialog.dismiss()
+                }
+            })
+    }
+
+    private fun checkSwitch() {
+
+        auth = Firebase.auth
+        val user = Firebase.auth.currentUser
+
+        val db = Firebase.firestore
+
+        val mechRef = db.collection("storeowner").document(user!!.uid)
+        mechRef.get()
+            .addOnSuccessListener { document ->
+                if (document.data != null) {
+                    val userdata = document.data!!
+                    val closeOpen = userdata.get("status").toString()
+
+                    if (closeOpen.equals("0")) {
+                        val mySwitch = findViewById<Switch>(R.id.ghostMode)
+                        mySwitch.isChecked = false
+                    } else {
+                        val mySwitch = findViewById<Switch>(R.id.ghostMode)
+                        mySwitch.isChecked = true
+                        //  dialog.dismiss()
+
+                    }
+
+                }
+
+            }
     }
 
     private fun setAddedProductRecycler(addProductDataList: List<AddProduct>) {
@@ -111,7 +228,7 @@ class MainActivity : AppCompatActivity() {
         addedProductRecycler!!.adapter = addedProductAdapter
     }
 
-    private fun getStoreInfo(){
+    private fun getStoreInfo() {
 
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
@@ -331,7 +448,6 @@ class MainActivity : AppCompatActivity() {
                     val bSnumber = findViewById<TextView>(R.id.bSnumber)
 
 
-
                     val name = document.data!!["storename"].toString()
                     val storeStatus = document.data!!["status"].toString()
                     val storeAddress = document.data!!["address"].toString()
@@ -364,9 +480,7 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-
     }
-
 
     private fun editStore() {
 
@@ -382,9 +496,10 @@ class MainActivity : AppCompatActivity() {
 
         val alertDialog: AlertDialog = builder.create()
 
-        var sharedPref: SharedPreferences = getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        var sharedPref: SharedPreferences =
+            getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
         val editor = sharedPref.edit()
-        editor.putString(Constants.EDIT,"1")
+        editor.putString(Constants.EDIT, "1")
         editor.apply()
 
         val docRef = db.collection("storeowner").document(user!!.uid)
@@ -488,7 +603,7 @@ class MainActivity : AppCompatActivity() {
 
                     val i = Intent(context, MapActivity::class.java)
                     i.putExtra("storeName", storeTitleNameE.text.toString())
-                    i.putExtra("businessNo",  businessNumber + " " + storeTillE.text.toString())
+                    i.putExtra("businessNo", businessNumber + " " + storeTillE.text.toString())
                     context.startActivity(i)
                     progressDialog.dismiss()
                 }
@@ -502,6 +617,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         alertDialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkSwitch()
     }
 
 
