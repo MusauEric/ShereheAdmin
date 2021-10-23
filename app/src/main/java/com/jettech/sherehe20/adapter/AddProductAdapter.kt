@@ -31,6 +31,9 @@ class AddProductAdapter(var context: Context, addedproductsList: List<AddProduct
 //        holder.qty.setText(recentlyViewedList[position].quantity)
 //        holder.unit.setText(recentlyViewedList[position].unit)
         //holder.bg.setBackgroundResource(recentlyViewedList[position].imageUrl)
+        //        holder.qty.setText(recentlyViewedList[position].quantity)
+//        holder.unit.setText(recentlyViewedList[position].unit)
+        //holder.bg.setBackgroundResource(recentlyViewedList[position].imageUrl)
         val path = holder.bg.setBackgroundResource(addproductList[position].imageUrl)
 
         Glide.with(context)
