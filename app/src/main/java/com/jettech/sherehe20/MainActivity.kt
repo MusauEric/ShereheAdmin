@@ -1,13 +1,14 @@
 package com.jettech.sherehe20
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.graphics.Color.green
-import android.graphics.Color.red
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,27 +20,34 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+
 import com.jettech.sherehe20.adapter.AddProductAdapter
-import com.jettech.sherehe20.adapter.LoginAdapter
 import com.jettech.sherehe20.model.AddProduct
 import com.jettech.sherehe20.utils.Constants
+import com.jettech.sherehe20.utils.OnClickImageListener
+import com.nguyenhoanglam.imagepicker.model.Config
+import com.nguyenhoanglam.imagepicker.model.Image
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
+import com.yalantis.ucrop.UCrop
 import es.dmoral.toasty.Toasty
+import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity(), OnClickImageListener {
 
     var addedProductRecycler: RecyclerView? = null
     var addedProductAdapter: AddProductAdapter? = null
     var addProductList: List<AddProduct>? = null
+    var drinkImage: String = ""
     private lateinit var auth: FirebaseAuth
     lateinit var progressDialog: Dialog
     var tillNumber: String = ""
@@ -49,6 +57,13 @@ class MainActivity : AppCompatActivity() {
     var latCoord: String = ""
     var longCoord: String = ""
     var bSNumber: String = ""
+    private var imageUri: Uri? = null
+    private var file: File? = null
+    private var downloadUrl: String? = null
+    var getPosition: String = ""
+    var imageType: Int? = null
+    lateinit var dView: View
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +76,9 @@ class MainActivity : AppCompatActivity() {
         addedProductRecycler = findViewById(R.id.productRec)
         val editStore = findViewById<LinearLayout>(R.id.editStore)
         val mySwitch = findViewById<Switch>(R.id.ghostMode)
+
         getStoreInfo()
+        imageUri = null
 
 
         editStore.setOnClickListener {
@@ -103,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             AddProduct(
                 "Soft drinks & mixers",
                 R.drawable.softdrink,
-                )
+            )
         )
         setAddedProductRecycler(addProductList as ArrayList<AddProduct>)
     }
@@ -140,13 +157,13 @@ class MainActivity : AppCompatActivity() {
                         Toasty.LENGTH_LONG
                     ).show()
 
-                   // progressDialog.dismiss()
+                    // progressDialog.dismiss()
                     loadStore()
 
                 }
             }).addOnFailureListener(object : OnFailureListener {
                 override fun onFailure(e: Exception) {
-                   // progressDialog.dismiss()
+                    // progressDialog.dismiss()
                 }
             })
 
@@ -180,13 +197,13 @@ class MainActivity : AppCompatActivity() {
                         "Store Closed",
                         Toasty.LENGTH_LONG
                     ).show()
-                   // progressDialog.dismiss()
+                    // progressDialog.dismiss()
                     loadStore()
 
                 }
             }).addOnFailureListener(object : OnFailureListener {
                 override fun onFailure(e: Exception) {
-                   // progressDialog.dismiss()
+                    // progressDialog.dismiss()
                 }
             })
     }
@@ -224,7 +241,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         addedProductRecycler!!.layoutManager = layoutManager
-        addedProductAdapter = AddProductAdapter(this, addProductDataList)
+        addedProductAdapter = AddProductAdapter(this, addProductDataList, this)
         addedProductRecycler!!.adapter = addedProductAdapter
     }
 
@@ -624,7 +641,154 @@ class MainActivity : AppCompatActivity() {
         checkSwitch()
     }
 
+    private fun startGallary() {
+        ImagePicker.with(this)
+            .setFolderMode(true)
+            .setFolderTitle("Album")
+            .setRootDirectoryName(Config.ROOT_DIR_DCIM)
+            .setDirectoryName("Hosp images")
+            .setMultipleMode(false)
+            .setShowNumberIndicator(true)
+            .setMaxSize(1)
+            .setLimitMessage("You can select only one image")
+            .setRequestCode(100)
+            .start();
+
+    }
+
+    @SuppressLint("CutPasteId")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (ImagePicker.shouldHandleResult(requestCode, resultCode, data, 100)) {
+            val images: ArrayList<Image> = ImagePicker.getImages(data)
+            // Do stuff with image's path or id. For example:
+
+            for (image in images) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                    imageUri = image.uri
+
+                    startCrop(imageUri!!)
+                    /*  Glide.with(this)
+                        .load(image.uri)
+                        .into(userPhoto)*/
+                } else {
+                    file = File(image.path)
+                    startCrop(Uri.fromFile(file))
+                    /* Glide.with(this)
+                        .load(image.path)
+                        .into(userPhoto)*/
+                }
+            }
+        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            val resultUri = UCrop.getOutput(data!!)
+//
+
+//            val selectedImage = dView.findViewById<ImageView>(R.id.selectedImage)
+//            Glide.with(this)
+//                .load(resultUri)
+//                .into(selectedImage!!)
+
+            imageUri = resultUri
+
+            dialogImage ()
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            val cropError = UCrop.getError(data!!)
+            Log.e("RegisterActivity", "Crop error:", cropError)
+        }
+        else{
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
+
+            Toasty.error(
+                this,
+                "Something went wrong  photo upload. Please try again.",
+                Toast.LENGTH_LONG,
+                true
+            ).show()
+        }
+
+    }
+
+    private fun dialogImage (){
+        val viewGroup = findViewById<ViewGroup>(R.id.rootImage)
+        val dialogView: View =
+            LayoutInflater.from(this).inflate(R.layout.showimage, viewGroup, false)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            .setCancelable(false)
+        dView = dialogView
+        builder.setView(dialogView)
+
+        val alertDialog: AlertDialog = builder.create()
+
+
+        val saveImage = dialogView.findViewById<Button>(R.id.saveImage)
+        val cancelImage = dialogView.findViewById<Button>(R.id.cancelImage)
+
+        val selectedImage = dView.findViewById<ImageView>(R.id.selectedImage)
+        Glide.with(this)
+            .load(imageUri)
+            .into(selectedImage!!)
+
+
+
+        builder.apply {
+
+
+            saveImage.setOnClickListener {
+
+                var sharedPref: SharedPreferences =
+                    getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                val editor = sharedPref.edit()
+                editor.putString(Constants.IMAGE, imageUri.toString())
+                editor.apply()
+                alertDialog.dismiss()
+            }
+            cancelImage.setOnClickListener {
+
+                var sharedPref: SharedPreferences = getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                val editor = sharedPref.edit()
+                editor.clear()
+                editor.commit()
+                alertDialog.dismiss()
+            }
+
+        }
+        alertDialog.show()
+
+
+    }
+
+    private fun startCrop(imageUri: Uri) {
+        val destinationFileName =
+            StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
+
+        UCrop.of(imageUri, Uri.fromFile(File(cacheDir, destinationFileName)))
+            .start(this)
+
+    }
+
+
+
+    override fun getImage(position: Int) {
+
+        getPosition = position.toString()
+
+        startGallary()
+
+    }
+
+
+
 
 }
+
+
+
+
 
 

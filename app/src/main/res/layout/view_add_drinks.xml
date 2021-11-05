@@ -14,7 +14,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/layoutWhiskey"
                 android:layout_width="match_parent"
                 android:padding="10dp"
@@ -175,6 +175,42 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
+                            android:textColor="@color/colorPrimary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Enter Available Unit"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Unit"
+                        app:hintTextColor="@color/colorPrimary"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitWhiskey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
