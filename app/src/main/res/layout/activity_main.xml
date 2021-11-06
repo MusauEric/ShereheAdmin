@@ -202,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="Add Drinks"
+                    android:text="ADD DRINKS"
                     android:textColor="@color/white"
                     android:textSize="20dp"
 
@@ -236,6 +236,7 @@
                 android:background="@color/black" />
 
             <Button
+                android:id="@+id/myStore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -262,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="New Orders"
+                    android:text="NEW ORDERS"
                     android:textColor="@color/white"
                     android:textSize="20dp"
 

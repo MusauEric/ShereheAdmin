@@ -76,6 +76,7 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
         addedProductRecycler = findViewById(R.id.productRec)
         val editStore = findViewById<LinearLayout>(R.id.editStore)
         val mySwitch = findViewById<Switch>(R.id.ghostMode)
+        val myStore = findViewById<Button>(R.id.myStore)
 
         getStoreInfo()
         imageUri = null
@@ -83,6 +84,9 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
 
         editStore.setOnClickListener {
             editStore()
+        }
+        myStore.setOnClickListener {
+            startActivity(Intent(this,MyStoreActivity::class.java))
         }
 
         mySwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->

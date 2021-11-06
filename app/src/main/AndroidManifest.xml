@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sherehe20">
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".OrdersActivity"></activity>
+        <activity android:name=".MyStoreActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".PermissionsActivity" />
         <activity android:name=".auth.LoginActivity">
             <intent-filter>
@@ -23,8 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-          />
+        <activity android:name=".MainActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
@@ -36,6 +37,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCV6xiv-Nm_53uQ01vgWkf8lpZk-lYA-is" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
