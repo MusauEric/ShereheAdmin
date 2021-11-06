@@ -16,6 +16,7 @@ import android.view.Window
 import android.widget.*
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
@@ -51,6 +52,7 @@ class AddProductAdapter(
     private var imageUri: Uri? = null
     var whiskey: String = ""
     var whiskeyQty: String = ""
+    lateinit var alertDialog : AlertDialog
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddProductViewHolder {
@@ -90,7 +92,7 @@ class AddProductAdapter(
                 .setCancelable(false)
             dv = dialogView
             builder.setView(dialogView)
-            val alertDialog: AlertDialog = builder.create()
+             alertDialog = builder.create()
             val layoutWhiskey = dialogView.findViewById<LinearLayout>(R.id.layoutWhiskey)
             val layoutWine = dialogView.findViewById<LinearLayout>(R.id.layoutWine)
             val layoutBeers = dialogView.findViewById<LinearLayout>(R.id.layoutBeers)
@@ -158,15 +160,35 @@ class AddProductAdapter(
                     onclickimagelistener.getImage(position)
                 }
                 cancelWhiskey.setOnClickListener {
+                    var sharedPref: SharedPreferences =
+                        context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                    val editor = sharedPref.edit()
+                    editor.clear()
+                    editor.commit()
                     alertDialog.dismiss()
                 }
                 cancelWine.setOnClickListener {
+                    var sharedPref: SharedPreferences =
+                        context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                    val editor = sharedPref.edit()
+                    editor.clear()
+                    editor.commit()
                     alertDialog.dismiss()
                 }
                 cancelBeers.setOnClickListener {
+                    var sharedPref: SharedPreferences =
+                        context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                    val editor = sharedPref.edit()
+                    editor.clear()
+                    editor.commit()
                     alertDialog.dismiss()
                 }
                 cancelSoftDrinks.setOnClickListener {
+                    var sharedPref: SharedPreferences =
+                        context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                    val editor = sharedPref.edit()
+                    editor.clear()
+                    editor.commit()
                     alertDialog.dismiss()
                 }
 
@@ -245,10 +267,18 @@ class AddProductAdapter(
 
                         buttonWhiskey.setOnClickListener {
 
+                            val sharedPref: SharedPreferences =
+                                context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                            val image: String =
+                                sharedPref.getString(Constants.IMAGE, "").toString().trim()
+                            Log.d("mumooo", image)
+
+                            imageUri = image.toUri()
+
                             if (nameWhiskey.text.toString().isEmpty()) {
 
                                 Toasty.error(
-                                    activity!!,
+                                    context,
                                     "Enter drink name.",
                                     Toast.LENGTH_LONG,
                                     true
@@ -260,7 +290,7 @@ class AddProductAdapter(
                             if (priceWhiskey.text.toString().isEmpty()) {
 
                                 Toasty.error(
-                                    activity!!,
+                                    context,
                                     "Enter drink price.",
                                     Toast.LENGTH_LONG,
                                     true
@@ -272,7 +302,7 @@ class AddProductAdapter(
                             if (discountWhiskey.text.toString().isEmpty()) {
 
                                 Toasty.error(
-                                    activity!!,
+                                    context,
                                     "Enter discount.",
                                     Toast.LENGTH_LONG,
                                     true
@@ -285,7 +315,7 @@ class AddProductAdapter(
                             if (unitWhiskey.text.toString().isEmpty()) {
 
                                 Toasty.error(
-                                    activity!!,
+                                    context,
                                     "Enter Available unit.",
                                     Toast.LENGTH_LONG,
                                     true
@@ -350,64 +380,121 @@ class AddProductAdapter(
         val discountWhiskey = dv.findViewById<EditText>(R.id.discountWhiskey)
         val unitWhiskey = dv.findViewById<EditText>(R.id.unitWhiskey)
 
-//        val data = hashMapOf(
-//            "drinkImage" to image.toString(),
-//            "nameWhiskey" to nameWhiskey.toString(),
-//            "ownerUid" to user!!.uid.toString(),
-//            "priceWhiskey" to priceWhiskey.toString(),
-//            "discountWhiskey" to discountWhiskey.toString(),
-//            "unitWhiskey" to unitWhiskey.toString(),
-//            "whiskeyQty" to whiskeyQty.toString(),
-//            "whiskey" to whiskey.toString(),
-//        )
-//        db.collection("storeowner").document(user!!.uid)
-//            .collection("store")
-//            .add(data)
-//            .addOnCompleteListener {
-//                val storeId = it.result.id
-//                val newDocdata = hashMapOf("storeid" to storeId)
-//                db.collection("storeowner").document(user!!.uid)
-//                    .collection("store").document(storeId)
-//                    .set(newDocdata, SetOptions.merge())
-//                    .addOnCompleteListener {
+        val mechRef = db.collection("storeowner").document(user!!.uid)
+        mechRef.get()
+            .addOnSuccessListener { document ->
+                if (document.data != null) {
+                    val userdata = document.data!!
+                    val storeid = userdata.get("storeid").toString()
+
+                    val data = hashMapOf(
+                        "drinkImage" to image.toString(),
+                        "nameWhiskey" to nameWhiskey.text.toString(),
+                        "ownerUid" to user!!.uid.toString(),
+                        "priceWhiskey" to priceWhiskey.text.toString(),
+                        "discountWhiskey" to discountWhiskey.text.toString(),
+                        "unitWhiskey" to unitWhiskey.text.toString(),
+                        "whiskeyQty" to whiskeyQty.toString(),
+                        "whiskey" to whiskey.toString(),
+                    )
+                    db.collection("storeowner").document(user!!.uid)
+                        .collection("store").document(storeid).collection("whiskey")
+                        .add(data)
+                        .addOnCompleteListener {
+                            val whiskeystoreId = it.result.id
+                            val newDocdata = hashMapOf("whiskeyStoreId" to whiskeystoreId)
+                            db.collection("storeowner").document(user!!.uid)
+                                .collection("store").document(storeid).collection("whiskey")
+                                .document(whiskeystoreId)
+                                .set(newDocdata, SetOptions.merge())
+                                .addOnCompleteListener {
+
+                                    val data = hashMapOf(
+                                        "drinkImage" to image.toString(),
+                                        "nameWhiskey" to nameWhiskey.text.toString(),
+                                        "ownerUid" to user!!.uid.toString(),
+                                        "priceWhiskey" to priceWhiskey.text.toString(),
+                                        "discountWhiskey" to discountWhiskey.text.toString(),
+                                        "unitWhiskey" to unitWhiskey.text.toString(),
+                                        "whiskeyQty" to whiskeyQty.toString(),
+                                        "whiskey" to whiskey.toString(),
+                                        "whiskeyStoreId" to whiskeystoreId
+                                    )
+                                    db.collection("storeowner").document(user!!.uid)
+                                        .collection("drinks")
+                                        .add(data)
+                                        .addOnCompleteListener {
+                                            val whiskeyDrinkId = it.result.id
+                                            val newDrinkdata =
+                                                hashMapOf("whiskeyDrinkId" to whiskeyDrinkId)
+                                            db.collection("storeowner").document(user!!.uid)
+                                                .collection("drinks").document(whiskeyDrinkId)
+                                                .set(newDrinkdata, SetOptions.merge())
+                                                .addOnCompleteListener {
+                                                    val newAlldata =
+                                                        hashMapOf("AllWhiskeyDrinkId" to whiskeyDrinkId)
+                                                    db.collection("storeowner").document(user!!.uid)
+                                                        .collection("store").document(storeid)
+                                                        .collection("whiskey")
+                                                        .document(whiskeystoreId)
+                                                        .set(newAlldata, SetOptions.merge())
+                                                        .addOnSuccessListener {
+                                                            progressDialog.dismiss()
+                                                            alertDialog.dismiss()
+                                                            Toasty.success(
+                                                                context,
+                                                                "Drink Added.",
+                                                                Toast.LENGTH_LONG,
+                                                                true
+                                                            ).show()
+                                                        }
+
+
+                                                }
+                                        }
+
 //
-//                        progressDialog.dismiss()
-//
-//                    }
-//
-//
-//            }
+
+                                }
+
+
+                        }
+
+                }
+            }
+
+
     }
 
-        override fun getItemCount(): Int {
-            return addproductList.size
-        }
+    override fun getItemCount(): Int {
+        return addproductList.size
+    }
 
-        class AddProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var name: TextView
+    class AddProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var name: TextView
 
-            //        var description: TextView
+        //        var description: TextView
 //        var price: TextView
 //        var qty: TextView
 //        var unit: TextView
-            var bg: ImageView
+        var bg: ImageView
 
-            init {
-                name = itemView.findViewById(R.id.product_name)
+        init {
+            name = itemView.findViewById(R.id.product_name)
 //            description = itemView.findViewById(R.id.description)
 //            price = itemView.findViewById(R.id.price)
 //            qty = itemView.findViewById(R.id.qty)
 //            unit = itemView.findViewById(R.id.unit)
-                bg = itemView.findViewById(R.id.recently_layout)
-            }
+            bg = itemView.findViewById(R.id.recently_layout)
         }
-
-        init {
-            this.addproductList = addedproductsList
-            this.onclickimagelistener = onClickImageListener
-        }
-
     }
+
+    init {
+        this.addproductList = addedproductsList
+        this.onclickimagelistener = onClickImageListener
+    }
+
+}
 
 
 
