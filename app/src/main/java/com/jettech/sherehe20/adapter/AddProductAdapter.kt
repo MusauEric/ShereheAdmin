@@ -52,6 +52,12 @@ class AddProductAdapter(
     private var imageUri: Uri? = null
     var whiskey: String = ""
     var whiskeyQty: String = ""
+    var wine: String = ""
+    var wineQty: String = ""
+    var beersQty: String = ""
+    var beers: String = ""
+    var SoftDrinksQty: String = ""
+    var SoftDrinks: String = ""
     lateinit var alertDialog : AlertDialog
 
 
@@ -65,14 +71,6 @@ class AddProductAdapter(
 
     override fun onBindViewHolder(holder: AddProductViewHolder, position: Int) {
         holder.name.setText(addproductList[position].name)
-//        holder.description.setText(recentlyViewedList[position].description)
-//        holder.price.setText(recentlyViewedList[position].price)
-//        holder.qty.setText(recentlyViewedList[position].quantity)
-//        holder.unit.setText(recentlyViewedList[position].unit)
-        //holder.bg.setBackgroundResource(recentlyViewedList[position].imageUrl)
-        //        holder.qty.setText(recentlyViewedList[position].quantity)
-//        holder.unit.setText(recentlyViewedList[position].unit)
-        //holder.bg.setBackgroundResource(recentlyViewedList[position].imageUrl)
         val path = holder.bg.setBackgroundResource(addproductList[position].imageUrl)
 
         Glide.with(context)
@@ -101,6 +99,9 @@ class AddProductAdapter(
             val cancelWine = dialogView.findViewById<Button>(R.id.cancelWine)
             val cancelBeers = dialogView.findViewById<Button>(R.id.cancelBeers)
             val buttonWhiskey = dialogView.findViewById<Button>(R.id.buttonWhiskey)
+            val buttonWines = dialogView.findViewById<Button>(R.id.buttonWine)
+            val buttonBeers = dialogView.findViewById<Button>(R.id.buttonBeers)
+            val buttonSoftDrinks = dialogView.findViewById<Button>(R.id.buttonSoftDrinks)
             val cancelSoftDrinks = dialogView.findViewById<Button>(R.id.cancelSoftDrinks)
             val imageWhiskey = dialogView.findViewById<Button>(R.id.imageWhiskey)
             val imageWine = dialogView.findViewById<Button>(R.id.imageWine)
@@ -139,13 +140,6 @@ class AddProductAdapter(
             }
 
             builder.apply {
-
-//                val addAddress = dialogView.findViewById<Button>(R.id.setLocation)
-//                val storeTitle = dialogView.findViewById<EditText>(R.id.storeTitle)
-//                val storeTitleName = dialogView.findViewById<EditText>(R.id.storeTitleName)
-//                val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radioGroup)
-//                val done = dialogView.findViewById<Button>(R.id.done)
-//                val addressLoc = dialogView.findViewById<TextView>(R.id.addressLocation)
 
                 imageWhiskey.setOnClickListener {
                     onclickimagelistener.getImage(position)
@@ -342,11 +336,437 @@ class AddProductAdapter(
                     }
                     1 -> {
 
+                        val nameWine = dialogView.findViewById<EditText>(R.id.nameWine)
+                        val priceWine = dialogView.findViewById<EditText>(R.id.priceWine)
+                        val discountWine =
+                            dialogView.findViewById<EditText>(R.id.discountWine)
+                        val unitWine = dialogView.findViewById<EditText>(R.id.unitWines)
+
+                        val  wineChoice =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.categoryWine)
+                        val  wineChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.wines
+                            )
+                        )
+                        wineChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        wineChoice.adapter = wineChoiceAdapter
+
+                        wineChoice.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItemwhiskey =
+                                        parent!!.getItemAtPosition(position).toString()
+
+
+                                    wine = selectedItemwhiskey
+                                }
+                            }
+
+
+                        val quantityWineChoices =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.quantityWine)
+                        val quantityWineChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.quantity
+                            )
+                        )
+                        quantityWineChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        quantityWineChoices.adapter = quantityWineChoiceAdapter
+
+                        quantityWineChoices.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItemQty =
+                                        parent!!.getItemAtPosition(position).toString()
+
+                                    wineQty = selectedItemQty
+                                }
+                            }
+
+                        buttonWines.setOnClickListener {
+
+                            val sharedPref: SharedPreferences =
+                                context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                            val image: String =
+                                sharedPref.getString(Constants.IMAGE, "").toString().trim()
+                            Log.d("mumooo", image)
+
+                            imageUri = image.toUri()
+
+                            if (nameWine.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink name.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (priceWine.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink price.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (discountWine.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter discount.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            if (unitWine.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter Available unit.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (imageUri == null) {
+                                Toasty.error(
+                                    context,
+                                    "Enter drink photo.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            saveWine()
+                        }
+
                     }
                     2 -> {
 
+                        val nameBeers = dialogView.findViewById<EditText>(R.id.nameBeers)
+                        val priceBeers = dialogView.findViewById<EditText>(R.id.priceBeers)
+                        val discountBeers =
+                            dialogView.findViewById<EditText>(R.id.discountBeers)
+                        val unitBeers = dialogView.findViewById<EditText>(R.id.unitBeers)
+
+                        val  beersChoice =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.categoryBeers)
+                        val  beersChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.beers
+                            )
+                        )
+                        beersChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        beersChoice.adapter = beersChoiceAdapter
+
+                        beersChoice.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItembeers =
+                                        parent!!.getItemAtPosition(position).toString()
+
+
+                                    beers = selectedItembeers
+                                }
+                            }
+
+
+                        val quantityBeersChoices =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.quantityBeers)
+                        val quantityBeersChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.quantity
+                            )
+                        )
+                        quantityBeersChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        quantityBeersChoices.adapter = quantityBeersChoiceAdapter
+
+                        quantityBeersChoices.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItemQty =
+                                        parent!!.getItemAtPosition(position).toString()
+
+                                    beersQty = selectedItemQty
+                                }
+                            }
+
+                        buttonBeers.setOnClickListener {
+
+                            val sharedPref: SharedPreferences =
+                                context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                            val image: String =
+                                sharedPref.getString(Constants.IMAGE, "").toString().trim()
+                            Log.d("mumooo", image)
+
+                            imageUri = image.toUri()
+
+                            if (nameBeers.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink name.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (priceBeers.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink price.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (discountBeers.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter discount.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            if (unitBeers.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter Available unit.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (imageUri == null) {
+                                Toasty.error(
+                                    context,
+                                    "Enter drink photo.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            saveBeers()
+                        }
+
                     }
                     3 -> {
+
+                        val nameSoftDrinks = dialogView.findViewById<EditText>(R.id.nameSoftDrinks)
+                        val priceSoftDrinks = dialogView.findViewById<EditText>(R.id.priceSoftDrinks)
+                        val discountSoftDrinks =
+                            dialogView.findViewById<EditText>(R.id.discountSoftDrinks)
+                        val unitSoftDrinks = dialogView.findViewById<EditText>(R.id.unitSoftDrinks)
+
+                        val  SoftDrinksChoice =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.categorySoftDrinks)
+                        val  SoftDrinksChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.softdrinks
+                            )
+                        )
+                        SoftDrinksChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        SoftDrinksChoice.adapter = SoftDrinksChoiceAdapter
+
+                        SoftDrinksChoice.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItemSoftDrinks =
+                                        parent!!.getItemAtPosition(position).toString()
+
+
+                                    SoftDrinks = selectedItemSoftDrinks
+                                }
+                            }
+
+
+                        val quantitySoftDrinksChoices =
+                            dialogView.findViewById<AppCompatSpinner>(R.id.quantitySoftDrinks)
+                        val quantitySoftDrinksChoiceAdapter = ArrayAdapter(
+                            context,
+                            android.R.layout.simple_spinner_item,
+                            context.resources.getStringArray(
+                                R.array.quantity
+                            )
+                        )
+                        quantitySoftDrinksChoiceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        quantitySoftDrinksChoices.adapter = quantitySoftDrinksChoiceAdapter
+
+                        quantitySoftDrinksChoices.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedItemQty =
+                                        parent!!.getItemAtPosition(position).toString()
+
+                                    SoftDrinksQty = selectedItemQty
+                                }
+                            }
+
+                        buttonSoftDrinks.setOnClickListener {
+
+                            val sharedPref: SharedPreferences =
+                                context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                            val image: String =
+                                sharedPref.getString(Constants.IMAGE, "").toString().trim()
+                            Log.d("mumooo", image)
+
+                            imageUri = image.toUri()
+
+                            if (nameSoftDrinks.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink name.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (priceSoftDrinks.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter drink price.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (discountSoftDrinks.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter discount.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            if (unitSoftDrinks.text.toString().isEmpty()) {
+
+                                Toasty.error(
+                                    context,
+                                    "Enter Available unit.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+                            if (imageUri == null) {
+                                Toasty.error(
+                                    context,
+                                    "Enter drink photo.",
+                                    Toast.LENGTH_LONG,
+                                    true
+                                )
+                                    .show()
+
+                                return@setOnClickListener
+                            }
+
+                            SoftDrinksBeers()
+                        }
 
                     }
                 }
@@ -355,6 +775,335 @@ class AddProductAdapter(
             }
 
         }
+    }
+
+    private fun SoftDrinksBeers() {
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+        val sharedPref: SharedPreferences =
+            context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val image: String = sharedPref.getString(Constants.IMAGE, "").toString().trim()
+
+        var progressDialog = Dialog(context)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = context.resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(context, R.color.pink))
+        progressTv.textSize = 15F
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val nameSoftDrinks = dv.findViewById<EditText>(R.id.nameSoftDrinks)
+        val priceSoftDrinks = dv.findViewById<EditText>(R.id.priceSoftDrinks)
+        val discountSoftDrinks = dv.findViewById<EditText>(R.id.discountSoftDrinks)
+        val unitSoftDrinks = dv.findViewById<EditText>(R.id.unitSoftDrinks)
+
+        val mechRef = db.collection("storeowner").document(user!!.uid)
+        mechRef.get()
+            .addOnSuccessListener { document ->
+                if (document.data != null) {
+                    val userdata = document.data!!
+                    val storeid = userdata.get("storeid").toString()
+
+                    val data = hashMapOf(
+                        "drinkImage" to image.toString(),
+                        "nameSoftDrinks" to nameSoftDrinks.text.toString(),
+                        "ownerUid" to user!!.uid.toString(),
+                        "priceSoftDrinks" to priceSoftDrinks.text.toString(),
+                        "discountSoftDrinks" to discountSoftDrinks.text.toString(),
+                        "unitSoftDrinks" to unitSoftDrinks.text.toString(),
+                        "SoftDrinksQty" to SoftDrinksQty.toString(),
+                        "SoftDrinks" to SoftDrinks.toString(),
+                    )
+                    db.collection("storeowner").document(user!!.uid)
+                        .collection("store").document(storeid).collection("SoftDrinks")
+                        .add(data)
+                        .addOnCompleteListener {
+                            val SoftDrinksstoreId = it.result.id
+                            val newDocdata = hashMapOf("SoftDrinksStoreId" to SoftDrinksstoreId)
+                            db.collection("storeowner").document(user!!.uid)
+                                .collection("store").document(storeid).collection("SoftDrinks")
+                                .document(SoftDrinksstoreId)
+                                .set(newDocdata, SetOptions.merge())
+                                .addOnCompleteListener {
+
+                                    val data = hashMapOf(
+                                        "drinkImage" to image.toString(),
+                                        "nameSoftDrinks" to nameSoftDrinks.text.toString(),
+                                        "ownerUid" to user!!.uid.toString(),
+                                        "priceSoftDrinks" to priceSoftDrinks.text.toString(),
+                                        "discountSoftDrinks" to discountSoftDrinks.text.toString(),
+                                        "unitSoftDrinks" to unitSoftDrinks.text.toString(),
+                                        "SoftDrinksQty" to SoftDrinksQty.toString(),
+                                        "SoftDrinks" to SoftDrinks.toString(),
+                                        "SoftDrinksstoreId" to SoftDrinksstoreId
+                                    )
+                                    db.collection("storeowner").document(user!!.uid)
+                                        .collection("drinks")
+                                        .add(data)
+                                        .addOnCompleteListener {
+                                            val SoftDrinksDrinkId = it.result.id
+                                            val newDrinkdata =
+                                                hashMapOf("SoftDrinksDrinkId" to SoftDrinksDrinkId)
+                                            db.collection("storeowner").document(user!!.uid)
+                                                .collection("drinks").document(SoftDrinksDrinkId)
+                                                .set(newDrinkdata, SetOptions.merge())
+                                                .addOnCompleteListener {
+                                                    val newAlldata =
+                                                        hashMapOf("AllSoftDrinksDrinkId" to SoftDrinksDrinkId)
+                                                    db.collection("storeowner").document(user!!.uid)
+                                                        .collection("store").document(storeid)
+                                                        .collection("SoftDrinks")
+                                                        .document(SoftDrinksstoreId)
+                                                        .set(newAlldata, SetOptions.merge())
+                                                        .addOnSuccessListener {
+                                                            progressDialog.dismiss()
+                                                            alertDialog.dismiss()
+                                                            Toasty.success(
+                                                                context,
+                                                                "Drink Added.",
+                                                                Toast.LENGTH_LONG,
+                                                                true
+                                                            ).show()
+                                                        }
+
+
+                                                }
+                                        }
+
+//
+
+                                }
+
+
+                        }
+
+                }
+            }
+
+
+    }
+
+    private fun saveBeers() {
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+        val sharedPref: SharedPreferences =
+            context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val image: String = sharedPref.getString(Constants.IMAGE, "").toString().trim()
+
+        var progressDialog = Dialog(context)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = context.resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(context, R.color.pink))
+        progressTv.textSize = 15F
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val nameBeers = dv.findViewById<EditText>(R.id.nameBeers)
+        val priceBeers = dv.findViewById<EditText>(R.id.priceBeers)
+        val discountBeers = dv.findViewById<EditText>(R.id.discountBeers)
+        val unitBeers = dv.findViewById<EditText>(R.id.unitBeers)
+
+        val mechRef = db.collection("storeowner").document(user!!.uid)
+        mechRef.get()
+            .addOnSuccessListener { document ->
+                if (document.data != null) {
+                    val userdata = document.data!!
+                    val storeid = userdata.get("storeid").toString()
+
+                    val data = hashMapOf(
+                        "drinkImage" to image.toString(),
+                        "nameBeers" to nameBeers.text.toString(),
+                        "ownerUid" to user!!.uid.toString(),
+                        "priceBeers" to priceBeers.text.toString(),
+                        "discountBeers" to discountBeers.text.toString(),
+                        "unitBeers" to unitBeers.text.toString(),
+                        "beersQty" to beersQty.toString(),
+                        "beers" to beers.toString(),
+                    )
+                    db.collection("storeowner").document(user!!.uid)
+                        .collection("store").document(storeid).collection("beers")
+                        .add(data)
+                        .addOnCompleteListener {
+                            val beerstoreId = it.result.id
+                            val newDocdata = hashMapOf("beerStoreId" to beerstoreId)
+                            db.collection("storeowner").document(user!!.uid)
+                                .collection("store").document(storeid).collection("beers")
+                                .document(beerstoreId)
+                                .set(newDocdata, SetOptions.merge())
+                                .addOnCompleteListener {
+
+                                    val data = hashMapOf(
+                                        "drinkImage" to image.toString(),
+                                        "nameBeers" to nameBeers.text.toString(),
+                                        "ownerUid" to user!!.uid.toString(),
+                                        "priceBeers" to priceBeers.text.toString(),
+                                        "discountBeers" to discountBeers.text.toString(),
+                                        "unitBeers" to unitBeers.text.toString(),
+                                        "beersQty" to beersQty.toString(),
+                                        "beers" to beers.toString(),
+                                        "beerstoreId" to beerstoreId
+                                    )
+                                    db.collection("storeowner").document(user!!.uid)
+                                        .collection("drinks")
+                                        .add(data)
+                                        .addOnCompleteListener {
+                                            val beerDrinkId = it.result.id
+                                            val newDrinkdata =
+                                                hashMapOf("beerDrinkId" to beerDrinkId)
+                                            db.collection("storeowner").document(user!!.uid)
+                                                .collection("drinks").document(beerDrinkId)
+                                                .set(newDrinkdata, SetOptions.merge())
+                                                .addOnCompleteListener {
+                                                    val newAlldata =
+                                                        hashMapOf("AllbeerDrinkId" to beerDrinkId)
+                                                    db.collection("storeowner").document(user!!.uid)
+                                                        .collection("store").document(storeid)
+                                                        .collection("beers")
+                                                        .document(beerstoreId)
+                                                        .set(newAlldata, SetOptions.merge())
+                                                        .addOnSuccessListener {
+                                                            progressDialog.dismiss()
+                                                            alertDialog.dismiss()
+                                                            Toasty.success(
+                                                                context,
+                                                                "Drink Added.",
+                                                                Toast.LENGTH_LONG,
+                                                                true
+                                                            ).show()
+                                                        }
+
+
+                                                }
+                                        }
+
+//
+
+                                }
+
+
+                        }
+
+                }
+            }
+
+
+    }
+
+    private fun saveWine() {
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+        val sharedPref: SharedPreferences =
+            context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+        val image: String = sharedPref.getString(Constants.IMAGE, "").toString().trim()
+
+        var progressDialog = Dialog(context)
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_dialog_progress)
+        val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+        progressTv.text = context.resources.getString(R.string.loading)
+        progressTv.setTextColor(ContextCompat.getColor(context, R.color.pink))
+        progressTv.textSize = 15F
+        progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val nameWine = dv.findViewById<EditText>(R.id.nameWine)
+        val priceWine = dv.findViewById<EditText>(R.id.priceWine)
+        val discountWine = dv.findViewById<EditText>(R.id.discountWine)
+        val unitWine = dv.findViewById<EditText>(R.id.unitWines)
+
+        val mechRef = db.collection("storeowner").document(user!!.uid)
+        mechRef.get()
+            .addOnSuccessListener { document ->
+                if (document.data != null) {
+                    val userdata = document.data!!
+                    val storeid = userdata.get("storeid").toString()
+
+                    val data = hashMapOf(
+                        "drinkImage" to image.toString(),
+                        "nameWine" to nameWine.text.toString(),
+                        "ownerUid" to user!!.uid.toString(),
+                        "priceWine" to priceWine.text.toString(),
+                        "discountWine" to discountWine.text.toString(),
+                        "unitWine" to unitWine.text.toString(),
+                        "wineQty" to wineQty.toString(),
+                        "wine" to wine.toString(),
+                    )
+                    db.collection("storeowner").document(user!!.uid)
+                        .collection("store").document(storeid).collection("wine")
+                        .add(data)
+                        .addOnCompleteListener {
+                            val winestoreId = it.result.id
+                            val newDocdata = hashMapOf("wineStoreId" to winestoreId)
+                            db.collection("storeowner").document(user!!.uid)
+                                .collection("store").document(storeid).collection("wine")
+                                .document(winestoreId)
+                                .set(newDocdata, SetOptions.merge())
+                                .addOnCompleteListener {
+
+                                    val data = hashMapOf(
+                                        "drinkImage" to image.toString(),
+                                        "nameWine" to nameWine.text.toString(),
+                                        "ownerUid" to user!!.uid.toString(),
+                                        "priceWine" to priceWine.text.toString(),
+                                        "discountWine" to discountWine.text.toString(),
+                                        "unitWine" to unitWine.text.toString(),
+                                        "wineQty" to wineQty.toString(),
+                                        "wine" to wine.toString(),
+                                        "winestoreId" to winestoreId
+                                    )
+                                    db.collection("storeowner").document(user!!.uid)
+                                        .collection("drinks")
+                                        .add(data)
+                                        .addOnCompleteListener {
+                                            val wineDrinkId = it.result.id
+                                            val newDrinkdata =
+                                                hashMapOf("wineDrinkId" to wineDrinkId)
+                                            db.collection("storeowner").document(user!!.uid)
+                                                .collection("drinks").document(wineDrinkId)
+                                                .set(newDrinkdata, SetOptions.merge())
+                                                .addOnCompleteListener {
+                                                    val newAlldata =
+                                                        hashMapOf("AllwineDrinkId" to wineDrinkId)
+                                                    db.collection("storeowner").document(user!!.uid)
+                                                        .collection("store").document(storeid)
+                                                        .collection("wine")
+                                                        .document(winestoreId)
+                                                        .set(newAlldata, SetOptions.merge())
+                                                        .addOnSuccessListener {
+                                                            progressDialog.dismiss()
+                                                            alertDialog.dismiss()
+                                                            Toasty.success(
+                                                                context,
+                                                                "Drink Added.",
+                                                                Toast.LENGTH_LONG,
+                                                                true
+                                                            ).show()
+                                                        }
+
+
+                                                }
+                                        }
+
+//
+
+                                }
+
+
+                        }
+
+                }
+            }
+
+
     }
 
     private fun saveWhiskey() {
