@@ -234,18 +234,29 @@
                         android:text="Set drink image"
                         android:textColor="@color/black" />
 
-                    <ImageView
+
+
+                    <Button
                         android:id="@+id/imageWhiskey"
-                        android:layout_marginTop="10dp"
                         android:layout_gravity="center"
-                        android:layout_width="100dp"
-                        android:src="@drawable/drinkphoto"
-                        android:layout_height="100dp"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="Take Photo"
+                        android:textColor="#989898"
+                        android:textAllCaps="false"
+                        android:textSize="16sp" />
 
 
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black"
+                    android:layout_marginTop="5sp"/>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -469,21 +480,68 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="Set drink image"
+                        android:text="Enter Available Unit"
                         android:textColor="@color/black" />
 
-                    <ImageView
-                        android:id="@+id/imageWine"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="center"
-                        android:layout_width="100dp"
-                        android:src="@drawable/drinkphoto"
-                        android:layout_height="100dp"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Unit"
+                        app:hintTextColor="@color/colorPrimary"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitWines"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/colorPrimary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Set drink image"
+                        android:textColor="@color/black" />
+
+
+                    <Button
+                        android:id="@+id/imageWine"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="Take Photo"
+                        android:textColor="#989898"
+                        android:textAllCaps="false"
+                        android:textSize="16sp" />
+
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black"
+                    android:layout_marginTop="5sp"/>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -695,6 +753,42 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Enter Available Unit"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Unit"
+                        app:hintTextColor="@color/colorPrimary"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitBeers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/colorPrimary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -710,18 +804,29 @@
                         android:text="Set drink image"
                         android:textColor="@color/black" />
 
-                    <ImageView
+
+
+                    <Button
                         android:id="@+id/imageBeers"
-                        android:layout_marginTop="10dp"
                         android:layout_gravity="center"
-                        android:layout_width="100dp"
-                        android:src="@drawable/drinkphoto"
-                        android:layout_height="100dp"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="Take Photo"
+                        android:textColor="#989898"
+                        android:textAllCaps="false"
+                        android:textSize="16sp" />
 
 
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black"
+                    android:layout_marginTop="5sp"/>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -933,6 +1038,42 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Enter Available Unit"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Unit"
+                        app:hintTextColor="@color/colorPrimary"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitSoftDrinks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/colorPrimary" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -948,18 +1089,29 @@
                         android:text="Set drink image"
                         android:textColor="@color/black" />
 
-                    <ImageView
+
+
+                    <Button
                         android:id="@+id/imageSoftDrinks"
-                        android:layout_marginTop="10dp"
                         android:layout_gravity="center"
-                        android:layout_width="100dp"
-                        android:src="@drawable/drinkphoto"
-                        android:layout_height="100dp"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="Take Photo"
+                        android:textColor="#989898"
+                        android:textAllCaps="false"
+                        android:textSize="16sp" />
 
 
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black"
+                    android:layout_marginTop="5sp"/>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"

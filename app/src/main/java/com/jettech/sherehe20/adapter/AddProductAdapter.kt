@@ -102,10 +102,10 @@ class AddProductAdapter(
             val cancelBeers = dialogView.findViewById<Button>(R.id.cancelBeers)
             val buttonWhiskey = dialogView.findViewById<Button>(R.id.buttonWhiskey)
             val cancelSoftDrinks = dialogView.findViewById<Button>(R.id.cancelSoftDrinks)
-            val imageWhiskey = dialogView.findViewById<ImageView>(R.id.imageWhiskey)
-            val imageWine = dialogView.findViewById<ImageView>(R.id.imageWine)
-            val imageBeers = dialogView.findViewById<ImageView>(R.id.imageBeers)
-            val imageSoftDrinks = dialogView.findViewById<ImageView>(R.id.imageSoftDrinks)
+            val imageWhiskey = dialogView.findViewById<Button>(R.id.imageWhiskey)
+            val imageWine = dialogView.findViewById<Button>(R.id.imageWine)
+            val imageBeers = dialogView.findViewById<Button>(R.id.imageBeers)
+            val imageSoftDrinks = dialogView.findViewById<Button>(R.id.imageSoftDrinks)
 
 
             val selectedItem = position
@@ -473,18 +473,10 @@ class AddProductAdapter(
     class AddProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView
 
-        //        var description: TextView
-//        var price: TextView
-//        var qty: TextView
-//        var unit: TextView
         var bg: ImageView
 
         init {
             name = itemView.findViewById(R.id.product_name)
-//            description = itemView.findViewById(R.id.description)
-//            price = itemView.findViewById(R.id.price)
-//            qty = itemView.findViewById(R.id.qty)
-//            unit = itemView.findViewById(R.id.unit)
             bg = itemView.findViewById(R.id.recently_layout)
         }
     }
