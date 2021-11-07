@@ -25,9 +25,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 import com.jettech.sherehe20.adapter.AddProductAdapter
 import com.jettech.sherehe20.model.AddProduct
@@ -42,7 +45,7 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity: AppCompatActivity(), OnClickImageListener {
+class MainActivity : AppCompatActivity(), OnClickImageListener {
 
     var addedProductRecycler: RecyclerView? = null
     var addedProductAdapter: AddProductAdapter? = null
@@ -63,7 +66,9 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
     var getPosition: String = ""
     var imageType: Int? = null
     lateinit var dView: View
-
+    var storageReference: StorageReference? = null
+    private var mAuth: FirebaseAuth? = null
+    private var firebaseFirestore: FirebaseFirestore? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,13 +85,16 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
 
         getStoreInfo()
         imageUri = null
+        mAuth = FirebaseAuth.getInstance()
+        storageReference = FirebaseStorage.getInstance().reference.child("images")
+        firebaseFirestore = FirebaseFirestore.getInstance()
 
 
         editStore.setOnClickListener {
             editStore()
         }
         myStore.setOnClickListener {
-            startActivity(Intent(this,MyStoreActivity::class.java))
+            startActivity(Intent(this, MyStoreActivity::class.java))
         }
 
         mySwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
@@ -697,12 +705,11 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
 
             imageUri = resultUri
 
-            dialogImage ()
+            dialogImage()
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
             Log.e("RegisterActivity", "Crop error:", cropError)
-        }
-        else{
+        } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
@@ -718,7 +725,7 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
 
     }
 
-    private fun dialogImage (){
+    private fun dialogImage() {
         val viewGroup = findViewById<ViewGroup>(R.id.rootImage)
         val dialogView: View =
             LayoutInflater.from(this).inflate(R.layout.showimage, viewGroup, false)
@@ -745,16 +752,42 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
 
             saveImage.setOnClickListener {
 
-                var sharedPref: SharedPreferences =
-                    getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
-                val editor = sharedPref.edit()
-                editor.putString(Constants.IMAGE, imageUri.toString())
-                editor.apply()
+                var progressDialog = Dialog(context)
+                progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                progressDialog.setContentView(R.layout.custom_dialog_progress)
+                val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+                progressTv.text = context.resources.getString(R.string.loading)
+                progressTv.setTextColor(ContextCompat.getColor(context, R.color.pink))
+                progressTv.textSize = 15F
+                progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                progressDialog.setCancelable(false)
+                progressDialog.show()
+
+                val user = Firebase.auth.currentUser
+                val db = Firebase.firestore
+                val userUid = user!!.uid
+                val drink_profile = storageReference!!.child("$userUid.png")
+                drink_profile.putFile(imageUri!!).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        drink_profile.downloadUrl.addOnSuccessListener { uri ->
+
+                            var sharedPref: SharedPreferences =
+                                getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                            val editor = sharedPref.edit()
+                            editor.putString(Constants.IMAGE, uri.toString())
+                            editor.apply()
+                            progressDialog.dismiss()
+                        }
+                    }else{
+                        progressDialog.dismiss()
+                    }
+                }
                 alertDialog.dismiss()
             }
             cancelImage.setOnClickListener {
 
-                var sharedPref: SharedPreferences = getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                var sharedPref: SharedPreferences =
+                    getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
                 val editor = sharedPref.edit()
                 editor.clear()
                 editor.commit()
@@ -777,7 +810,6 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
     }
 
 
-
     override fun getImage(position: Int) {
 
         getPosition = position.toString()
@@ -785,8 +817,6 @@ class MainActivity: AppCompatActivity(), OnClickImageListener {
         startGallary()
 
     }
-
-
 
 
 }
