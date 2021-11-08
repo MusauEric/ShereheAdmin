@@ -42,6 +42,7 @@ import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import com.yalantis.ucrop.UCrop
 import es.dmoral.toasty.Toasty
 import java.io.File
+import java.security.SecureRandom
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -766,23 +767,39 @@ class MainActivity : AppCompatActivity(), OnClickImageListener {
                 val user = Firebase.auth.currentUser
                 val db = Firebase.firestore
                 val userUid = user!!.uid
-                val drink_profile = storageReference!!.child("$userUid.png")
-                drink_profile.putFile(imageUri!!).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        drink_profile.downloadUrl.addOnSuccessListener { uri ->
 
-                            var sharedPref: SharedPreferences =
-                                getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
-                            val editor = sharedPref.edit()
-                            editor.putString(Constants.IMAGE, uri.toString())
-                            editor.apply()
-                            progressDialog.dismiss()
+                val storageRef = FirebaseStorage.getInstance().reference
+                val ref = storageRef.child("images/" + rand(1, 20) + "${imageUri!!.lastPathSegment}")
+                val uploadTask = ref.putFile(imageUri!!)
+
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
                         }
-                    }else{
-                        progressDialog.dismiss()
                     }
+                    ref.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                        downloadUrl = task.result.toString()
+                        Log.e("RegisterActivity", downloadUrl!!)
+
+                    }
+                }.addOnCompleteListener {
+
+                    var sharedPref: SharedPreferences =
+                        getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                    val editor = sharedPref.edit()
+                    editor.putString(Constants.IMAGE, downloadUrl)
+                    editor.apply()
+                    progressDialog.dismiss()
+
+
                 }
                 alertDialog.dismiss()
+
+
             }
             cancelImage.setOnClickListener {
 
@@ -807,6 +824,14 @@ class MainActivity : AppCompatActivity(), OnClickImageListener {
         UCrop.of(imageUri, Uri.fromFile(File(cacheDir, destinationFileName)))
             .start(this)
 
+    }
+
+    private fun rand(start: Int, end: Int): Int {
+        require(start <= end) { "Illegal Argument" }
+        val random = SecureRandom()
+        random.setSeed(random.generateSeed(20))
+
+        return random.nextInt(end - start + 1) + start
     }
 
 
