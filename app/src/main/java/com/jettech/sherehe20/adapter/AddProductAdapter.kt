@@ -810,12 +810,12 @@ class AddProductAdapter(
 
                     val data = hashMapOf(
                         "drinkImage" to image.toString(),
-                        "nameSoftDrinks" to nameSoftDrinks.text.toString(),
+                        "drinkName" to nameSoftDrinks.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "priceSoftDrinks" to priceSoftDrinks.text.toString(),
+                        "drinkPrice" to priceSoftDrinks.text.toString(),
                         "discountSoftDrinks" to discountSoftDrinks.text.toString(),
-                        "unitSoftDrinks" to unitSoftDrinks.text.toString(),
-                        "SoftDrinksQty" to SoftDrinksQty.toString(),
+                        "drinkUnit" to unitSoftDrinks.text.toString(),
+                        "drinkQty" to SoftDrinksQty.toString(),
                         "SoftDrinks" to SoftDrinks.toString(),
                     )
                     db.collection("storeowner").document(user!!.uid)
@@ -823,7 +823,7 @@ class AddProductAdapter(
                         .add(data)
                         .addOnCompleteListener {
                             val SoftDrinksstoreId = it.result.id
-                            val newDocdata = hashMapOf("SoftDrinksStoreId" to SoftDrinksstoreId)
+                            val newDocdata = hashMapOf("drinkStoreId" to SoftDrinksstoreId)
                             db.collection("storeowner").document(user!!.uid)
                                 .collection("store").document(storeid).collection("SoftDrinks")
                                 .document(SoftDrinksstoreId)
@@ -832,14 +832,14 @@ class AddProductAdapter(
 
                                     val data = hashMapOf(
                                         "drinkImage" to image.toString(),
-                                        "nameSoftDrinks" to nameSoftDrinks.text.toString(),
+                                        "drinkName" to nameSoftDrinks.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "priceSoftDrinks" to priceSoftDrinks.text.toString(),
+                                        "drinkPrice" to priceSoftDrinks.text.toString(),
                                         "discountSoftDrinks" to discountSoftDrinks.text.toString(),
-                                        "unitSoftDrinks" to unitSoftDrinks.text.toString(),
-                                        "SoftDrinksQty" to SoftDrinksQty.toString(),
+                                        "drinkUnit" to unitSoftDrinks.text.toString(),
+                                        "drinkQty" to SoftDrinksQty.toString(),
                                         "SoftDrinks" to SoftDrinks.toString(),
-                                        "SoftDrinksstoreId" to SoftDrinksstoreId
+                                        "drinkStoreId" to SoftDrinksstoreId
                                     )
                                     db.collection("storeowner").document(user!!.uid)
                                         .collection("drinks")
@@ -847,13 +847,13 @@ class AddProductAdapter(
                                         .addOnCompleteListener {
                                             val SoftDrinksDrinkId = it.result.id
                                             val newDrinkdata =
-                                                hashMapOf("SoftDrinksDrinkId" to SoftDrinksDrinkId)
+                                                hashMapOf("drinkId" to SoftDrinksDrinkId)
                                             db.collection("storeowner").document(user!!.uid)
                                                 .collection("drinks").document(SoftDrinksDrinkId)
                                                 .set(newDrinkdata, SetOptions.merge())
                                                 .addOnCompleteListener {
                                                     val newAlldata =
-                                                        hashMapOf("AllSoftDrinksDrinkId" to SoftDrinksDrinkId)
+                                                        hashMapOf("allDrinksId" to SoftDrinksDrinkId)
                                                     db.collection("storeowner").document(user!!.uid)
                                                         .collection("store").document(storeid)
                                                         .collection("SoftDrinks")
@@ -920,12 +920,12 @@ class AddProductAdapter(
 
                     val data = hashMapOf(
                         "drinkImage" to image.toString(),
-                        "nameBeers" to nameBeers.text.toString(),
+                        "drinkName" to nameBeers.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "priceBeers" to priceBeers.text.toString(),
+                        "drinkPrice" to priceBeers.text.toString(),
                         "discountBeers" to discountBeers.text.toString(),
-                        "unitBeers" to unitBeers.text.toString(),
-                        "beersQty" to beersQty.toString(),
+                        "drinkUnit" to unitBeers.text.toString(),
+                        "drinkQty" to beersQty.toString(),
                         "beers" to beers.toString(),
                     )
                     db.collection("storeowner").document(user!!.uid)
@@ -933,7 +933,7 @@ class AddProductAdapter(
                         .add(data)
                         .addOnCompleteListener {
                             val beerstoreId = it.result.id
-                            val newDocdata = hashMapOf("beerStoreId" to beerstoreId)
+                            val newDocdata = hashMapOf("drinkStoreId" to beerstoreId)
                             db.collection("storeowner").document(user!!.uid)
                                 .collection("store").document(storeid).collection("beers")
                                 .document(beerstoreId)
@@ -942,14 +942,14 @@ class AddProductAdapter(
 
                                     val data = hashMapOf(
                                         "drinkImage" to image.toString(),
-                                        "nameBeers" to nameBeers.text.toString(),
+                                        "drinkName" to nameBeers.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "priceBeers" to priceBeers.text.toString(),
+                                        "drinkPrice" to priceBeers.text.toString(),
                                         "discountBeers" to discountBeers.text.toString(),
-                                        "unitBeers" to unitBeers.text.toString(),
-                                        "beersQty" to beersQty.toString(),
+                                        "drinkUnit" to unitBeers.text.toString(),
+                                        "drinkQty" to beersQty.toString(),
                                         "beers" to beers.toString(),
-                                        "beerstoreId" to beerstoreId
+                                        "drinkStoreId" to beerstoreId
                                     )
                                     db.collection("storeowner").document(user!!.uid)
                                         .collection("drinks")
@@ -957,13 +957,13 @@ class AddProductAdapter(
                                         .addOnCompleteListener {
                                             val beerDrinkId = it.result.id
                                             val newDrinkdata =
-                                                hashMapOf("beerDrinkId" to beerDrinkId)
+                                                hashMapOf("drinkId" to beerDrinkId)
                                             db.collection("storeowner").document(user!!.uid)
                                                 .collection("drinks").document(beerDrinkId)
                                                 .set(newDrinkdata, SetOptions.merge())
                                                 .addOnCompleteListener {
                                                     val newAlldata =
-                                                        hashMapOf("AllbeerDrinkId" to beerDrinkId)
+                                                        hashMapOf("allDrinkId" to beerDrinkId)
                                                     db.collection("storeowner").document(user!!.uid)
                                                         .collection("store").document(storeid)
                                                         .collection("beers")
@@ -1029,12 +1029,12 @@ class AddProductAdapter(
 
                     val data = hashMapOf(
                         "drinkImage" to image.toString(),
-                        "nameWine" to nameWine.text.toString(),
+                        "drinkName" to nameWine.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "priceWine" to priceWine.text.toString(),
+                        "drinkPrice" to priceWine.text.toString(),
                         "discountWine" to discountWine.text.toString(),
-                        "unitWine" to unitWine.text.toString(),
-                        "wineQty" to wineQty.toString(),
+                        "drinkUnit" to unitWine.text.toString(),
+                        "drinkQty" to wineQty.toString(),
                         "wine" to wine.toString(),
                     )
                     db.collection("storeowner").document(user!!.uid)
@@ -1042,7 +1042,7 @@ class AddProductAdapter(
                         .add(data)
                         .addOnCompleteListener {
                             val winestoreId = it.result.id
-                            val newDocdata = hashMapOf("wineStoreId" to winestoreId)
+                            val newDocdata = hashMapOf("drinkStoreId" to winestoreId)
                             db.collection("storeowner").document(user!!.uid)
                                 .collection("store").document(storeid).collection("wine")
                                 .document(winestoreId)
@@ -1051,14 +1051,14 @@ class AddProductAdapter(
 
                                     val data = hashMapOf(
                                         "drinkImage" to image.toString(),
-                                        "nameWine" to nameWine.text.toString(),
+                                        "drinkName" to nameWine.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "priceWine" to priceWine.text.toString(),
+                                        "drinkPrice" to priceWine.text.toString(),
                                         "discountWine" to discountWine.text.toString(),
-                                        "unitWine" to unitWine.text.toString(),
-                                        "wineQty" to wineQty.toString(),
+                                        "drinkUnit" to unitWine.text.toString(),
+                                        "drinkQty" to wineQty.toString(),
                                         "wine" to wine.toString(),
-                                        "winestoreId" to winestoreId
+                                        "drinkStoreId" to winestoreId
                                     )
                                     db.collection("storeowner").document(user!!.uid)
                                         .collection("drinks")
@@ -1066,13 +1066,13 @@ class AddProductAdapter(
                                         .addOnCompleteListener {
                                             val wineDrinkId = it.result.id
                                             val newDrinkdata =
-                                                hashMapOf("wineDrinkId" to wineDrinkId)
+                                                hashMapOf("drinkId" to wineDrinkId)
                                             db.collection("storeowner").document(user!!.uid)
                                                 .collection("drinks").document(wineDrinkId)
                                                 .set(newDrinkdata, SetOptions.merge())
                                                 .addOnCompleteListener {
                                                     val newAlldata =
-                                                        hashMapOf("AllwineDrinkId" to wineDrinkId)
+                                                        hashMapOf("allDrinkId" to wineDrinkId)
                                                     db.collection("storeowner").document(user!!.uid)
                                                         .collection("store").document(storeid)
                                                         .collection("wine")
@@ -1138,12 +1138,12 @@ class AddProductAdapter(
 
                     val data = hashMapOf(
                         "drinkImage" to image.toString(),
-                        "nameWhiskey" to nameWhiskey.text.toString(),
+                        "drinkName" to nameWhiskey.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "priceWhiskey" to priceWhiskey.text.toString(),
+                        "drinkPrice" to priceWhiskey.text.toString(),
                         "discountWhiskey" to discountWhiskey.text.toString(),
-                        "unitWhiskey" to unitWhiskey.text.toString(),
-                        "whiskeyQty" to whiskeyQty.toString(),
+                        "drinkUnit" to unitWhiskey.text.toString(),
+                        "drinkQty" to whiskeyQty.toString(),
                         "whiskey" to whiskey.toString(),
                     )
                     db.collection("storeowner").document(user!!.uid)
@@ -1151,7 +1151,7 @@ class AddProductAdapter(
                         .add(data)
                         .addOnCompleteListener {
                             val whiskeystoreId = it.result.id
-                            val newDocdata = hashMapOf("whiskeyStoreId" to whiskeystoreId)
+                            val newDocdata = hashMapOf("drinkStoreId" to whiskeystoreId)
                             db.collection("storeowner").document(user!!.uid)
                                 .collection("store").document(storeid).collection("whiskey")
                                 .document(whiskeystoreId)
@@ -1160,14 +1160,14 @@ class AddProductAdapter(
 
                                     val data = hashMapOf(
                                         "drinkImage" to image.toString(),
-                                        "nameWhiskey" to nameWhiskey.text.toString(),
+                                        "drinkName" to nameWhiskey.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "priceWhiskey" to priceWhiskey.text.toString(),
+                                        "drinkPrice" to priceWhiskey.text.toString(),
                                         "discountWhiskey" to discountWhiskey.text.toString(),
-                                        "unitWhiskey" to unitWhiskey.text.toString(),
-                                        "whiskeyQty" to whiskeyQty.toString(),
+                                        "drinkUnit" to unitWhiskey.text.toString(),
+                                        "drinkQty" to whiskeyQty.toString(),
                                         "whiskey" to whiskey.toString(),
-                                        "whiskeyStoreId" to whiskeystoreId
+                                        "drinkStoreId" to whiskeystoreId
                                     )
                                     db.collection("storeowner").document(user!!.uid)
                                         .collection("drinks")
@@ -1175,13 +1175,13 @@ class AddProductAdapter(
                                         .addOnCompleteListener {
                                             val whiskeyDrinkId = it.result.id
                                             val newDrinkdata =
-                                                hashMapOf("whiskeyDrinkId" to whiskeyDrinkId)
+                                                hashMapOf("drinkId" to whiskeyDrinkId)
                                             db.collection("storeowner").document(user!!.uid)
                                                 .collection("drinks").document(whiskeyDrinkId)
                                                 .set(newDrinkdata, SetOptions.merge())
                                                 .addOnCompleteListener {
                                                     val newAlldata =
-                                                        hashMapOf("AllWhiskeyDrinkId" to whiskeyDrinkId)
+                                                        hashMapOf("allDrinkId" to whiskeyDrinkId)
                                                     db.collection("storeowner").document(user!!.uid)
                                                         .collection("store").document(storeid)
                                                         .collection("whiskey")
