@@ -63,6 +63,11 @@ class AddProductAdapter(
     var SoftDrinksQty: String = ""
     var SoftDrinks: String = ""
     var discWhisky : String = ""
+    var discWine : String = ""
+    var discBeer : String = ""
+    var discSoft : String = ""
+    var discount : String = ""
+
     lateinit var alertDialog : AlertDialog
 
 
@@ -153,6 +158,18 @@ class AddProductAdapter(
                 val discountWhiskey = dv.findViewById<EditText>(R.id.discountWhiskey)
                 val finalWhiskey = dv.findViewById<TextView>(R.id.finalWhiskyPrice)
 
+                val priceWine = dv.findViewById<EditText>(R.id.priceWine)
+                val discountWine = dv.findViewById<EditText>(R.id.discountWine)
+                val finalWinePrice = dv.findViewById<TextView>(R.id.finalWinePrice)
+
+                val priceBeers = dv.findViewById<EditText>(R.id.priceBeers)
+                val discountBeers = dv.findViewById<EditText>(R.id.discountBeers)
+                val finalBeerPrice = dv.findViewById<TextView>(R.id.finalBeerPrice)
+
+                val priceSoftDrinks = dv.findViewById<EditText>(R.id.priceSoftDrinks)
+                val discountSoftDrinks = dv.findViewById<EditText>(R.id.discountSoftDrinks)
+                val finalSoftPrice = dv.findViewById<TextView>(R.id.finalSoftPrice)
+
                 priceWhiskey.addTextChangedListener(object : TextWatcher {
                     override fun afterTextChanged(s: Editable?) {
 
@@ -194,7 +211,6 @@ class AddProductAdapter(
 
                     }
                 })
-
                 discountWhiskey.addTextChangedListener(object : TextWatcher {
                     override fun afterTextChanged(s: Editable?) {
 
@@ -236,6 +252,274 @@ class AddProductAdapter(
                             val finalP =  (originalPrice.toString().toInt()*((discount)*(0.01))).toInt()
 
                             finalWhiskey.text = finalP.toInt().toString()
+
+
+                        }
+
+
+                    }
+                })
+
+                priceWine.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceWine.text!!.isEmpty() || priceWine.text.toString() == "0") {
+
+                            shakeView(priceWhiskey,context)
+                            Toasty.error(
+                                context, "Please enter Price", Toasty.LENGTH_LONG
+                            ).show()
+
+
+
+                        }
+                        else {
+
+                            if (discountWine.text.toString().equals("")){
+
+                                discWine = (0).toString()
+                            }else{
+                                discWine = discountWine.text.toString()
+                            }
+
+                            val discount = (100 - discWine.toInt())
+                            val finalP =  (s.toString().toInt().toInt()*((discount)*(0.01))).toInt()
+
+                            finalWinePrice.text = finalP.toString()
+
+
+                        }
+
+
+                    }
+                })
+                discountWine.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceWine.text!!.isEmpty()) {
+
+                            shakeView(priceWine,context)
+                            Toasty.error(
+                                context, "Enter Drink Price", Toasty.LENGTH_LONG
+                            ).show()
+
+                            if(discountWine.text!!.count() > 2){
+                                shakeView(discountWine,context)
+                                Toasty.error(
+                                    context, "Incorrect value", Toasty.LENGTH_LONG
+                                ).show()
+                            }
+
+
+                        }
+                        else {
+                            if (discountWine.text.toString().equals("")){
+
+                                discWine = (0).toString()
+                            }else{
+                                discWine = s.toString()
+                            }
+
+
+                            val discount = (100 - discWine.toString().toInt())
+                            val originalPrice = priceWine.text
+                            val finalP =  (originalPrice.toString().toInt()*((discount)*(0.01))).toInt()
+
+                            finalWinePrice.text = finalP.toInt().toString()
+
+
+                        }
+
+
+                    }
+                })
+
+                priceBeers.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceBeers.text!!.isEmpty() || priceBeers.text.toString() == "0") {
+
+                            shakeView(priceBeers,context)
+                            Toasty.error(
+                                context, "Please enter Price", Toasty.LENGTH_LONG
+                            ).show()
+
+
+
+                        }
+                        else {
+
+                            if (discountBeers.text.toString().equals("")){
+
+                                discBeer = (0).toString()
+                            }else{
+                                discBeer = discountBeers.text.toString()
+                            }
+
+                            val discount = (100 - discBeer.toInt())
+                            val finalP =  (s.toString().toInt().toInt()*((discount)*(0.01))).toInt()
+
+                            finalBeerPrice.text = finalP.toString()
+
+
+                        }
+
+
+                    }
+                })
+                discountBeers.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceBeers.text!!.isEmpty()) {
+
+                            shakeView(priceBeers,context)
+                            Toasty.error(
+                                context, "Enter Drink Price", Toasty.LENGTH_LONG
+                            ).show()
+
+                            if(discountBeers.text!!.count() > 2){
+                                shakeView(discountBeers,context)
+                                Toasty.error(
+                                    context, "Incorrect value", Toasty.LENGTH_LONG
+                                ).show()
+                            }
+
+
+                        }
+                        else {
+                            if (discountBeers.text.toString().equals("")){
+
+                                discBeer = (0).toString()
+                            }else{
+                                discBeer  = s.toString()
+                            }
+
+
+                            val discount = (100 - discBeer .toString().toInt())
+                            val originalPrice = priceBeers.text
+                            val finalP =  (originalPrice.toString().toInt()*((discount)*(0.01))).toInt()
+
+                            finalBeerPrice.text = finalP.toInt().toString()
+
+
+                        }
+
+
+                    }
+                })
+
+                priceSoftDrinks.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceSoftDrinks.text!!.isEmpty() || priceSoftDrinks.text.toString() == "0") {
+
+                            shakeView(priceSoftDrinks,context)
+                            Toasty.error(
+                                context, "Please enter Price", Toasty.LENGTH_LONG
+                            ).show()
+
+                        }
+                        else {
+
+                            if (discountSoftDrinks.text.toString().equals("")){
+
+                                discSoft = (0).toString()
+                            }else{
+                                discSoft = discountSoftDrinks.text.toString()
+                            }
+
+                            val discount = (100 - discSoft.toInt())
+                            val finalP =  (s.toString().toInt().toInt()*((discount)*(0.01))).toInt()
+
+                            finalSoftPrice.text = finalP.toString()
+
+
+                        }
+
+
+                    }
+                })
+                discountSoftDrinks.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceSoftDrinks.text!!.isEmpty()) {
+
+                            shakeView(priceSoftDrinks,context)
+                            Toasty.error(
+                                context, "Enter Drink Price", Toasty.LENGTH_LONG
+                            ).show()
+
+                            if(discountSoftDrinks.text!!.count() > 2){
+                                shakeView(discountSoftDrinks,context)
+                                Toasty.error(
+                                    context, "Incorrect value", Toasty.LENGTH_LONG
+                                ).show()
+                            }
+
+
+                        }
+                        else {
+                            if (discountSoftDrinks.text.toString().equals("")){
+
+                                discSoft = (0).toString()
+                            }else{
+                                discSoft = s.toString()
+                            }
+
+
+                            val discount = (100 - discSoft.toString().toInt())
+                            val originalPrice = priceSoftDrinks.text
+                            val finalP =  (originalPrice.toString().toInt()*((discount)*(0.01))).toInt()
+
+                            finalSoftPrice.text = finalP.toInt().toString()
 
 
                         }
@@ -903,7 +1187,15 @@ class AddProductAdapter(
         val priceSoftDrinks = dv.findViewById<EditText>(R.id.priceSoftDrinks)
         val discountSoftDrinks = dv.findViewById<EditText>(R.id.discountSoftDrinks)
         val unitSoftDrinks = dv.findViewById<EditText>(R.id.unitSoftDrinks)
+        val finalSoftPrice = dv.findViewById<TextView>(R.id.finalSoftPrice)
 
+        if (discountSoftDrinks.text!!.isEmpty() || discountSoftDrinks.text.toString() == "0"){
+
+            discount = "noDiscount"
+        }
+        else{
+            discount = "discount"
+        }
 
 
         val mechRef = db.collection("storeowner").document(user!!.uid)
@@ -917,8 +1209,8 @@ class AddProductAdapter(
                         "drinkImage" to image.toString(),
                         "drinkName" to nameSoftDrinks.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "drinkPrice" to priceSoftDrinks.text.toString(),
-                        "discountSoftDrinks" to discountSoftDrinks.text.toString(),
+                        "drinkPrice" to finalSoftPrice.text.toString(),
+                        "drinkDiscount" to discount.toString(),
                         "drinkUnit" to unitSoftDrinks.text.toString(),
                         "drinkQty" to SoftDrinksQty.toString(),
                         "SoftDrinks" to SoftDrinks.toString(),
@@ -939,8 +1231,8 @@ class AddProductAdapter(
                                         "drinkImage" to image.toString(),
                                         "drinkName" to nameSoftDrinks.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "drinkPrice" to priceSoftDrinks.text.toString(),
-                                        "discountSoftDrinks" to discountSoftDrinks.text.toString(),
+                                        "drinkPrice" to finalSoftPrice.text.toString(),
+                                        "drinkDiscount" to discount.toString(),
                                         "drinkUnit" to unitSoftDrinks.text.toString(),
                                         "drinkQty" to SoftDrinksQty.toString(),
                                         "SoftDrinks" to SoftDrinks.toString(),
@@ -1015,6 +1307,14 @@ class AddProductAdapter(
         val priceBeers = dv.findViewById<EditText>(R.id.priceBeers)
         val discountBeers = dv.findViewById<EditText>(R.id.discountBeers)
         val unitBeers = dv.findViewById<EditText>(R.id.unitBeers)
+        val finalBeerPrice = dv.findViewById<TextView>(R.id.finalBeerPrice)
+        if (discountBeers.text!!.isEmpty() || discountBeers.text.toString() == "0"){
+
+            discount = "noDiscount"
+        }
+        else{
+            discount = "discount"
+        }
 
         val mechRef = db.collection("storeowner").document(user!!.uid)
         mechRef.get()
@@ -1027,8 +1327,8 @@ class AddProductAdapter(
                         "drinkImage" to image.toString(),
                         "drinkName" to nameBeers.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "drinkPrice" to priceBeers.text.toString(),
-                        "discountBeers" to discountBeers.text.toString(),
+                        "drinkPrice" to finalBeerPrice.text.toString(),
+                        "drinkDiscount" to discount.toString(),
                         "drinkUnit" to unitBeers.text.toString(),
                         "drinkQty" to beersQty.toString(),
                         "beers" to beers.toString(),
@@ -1049,8 +1349,8 @@ class AddProductAdapter(
                                         "drinkImage" to image.toString(),
                                         "drinkName" to nameBeers.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "drinkPrice" to priceBeers.text.toString(),
-                                        "discountBeers" to discountBeers.text.toString(),
+                                        "drinkPrice" to finalBeerPrice.text.toString(),
+                                        "drinkDiscount" to discount.toString(),
                                         "drinkUnit" to unitBeers.text.toString(),
                                         "drinkQty" to beersQty.toString(),
                                         "beers" to beers.toString(),
@@ -1125,6 +1425,15 @@ class AddProductAdapter(
         val discountWine = dv.findViewById<EditText>(R.id.discountWine)
         val unitWine = dv.findViewById<EditText>(R.id.unitWines)
 
+        val finalWinePrice = dv.findViewById<TextView>(R.id.finalWinePrice)
+        if (discountWine.text!!.isEmpty() || discountWine.text.toString() == "0"){
+
+            discount = "noDiscount"
+        }
+        else{
+            discount = "discount"
+        }
+
         val mechRef = db.collection("storeowner").document(user!!.uid)
         mechRef.get()
             .addOnSuccessListener { document ->
@@ -1136,8 +1445,8 @@ class AddProductAdapter(
                         "drinkImage" to image.toString(),
                         "drinkName" to nameWine.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "drinkPrice" to priceWine.text.toString(),
-                        "discountWine" to discountWine.text.toString(),
+                        "drinkPrice" to finalWinePrice.text.toString(),
+                        "drinkDiscount" to discount.toString(),
                         "drinkUnit" to unitWine.text.toString(),
                         "drinkQty" to wineQty.toString(),
                         "wine" to wine.toString(),
@@ -1158,8 +1467,8 @@ class AddProductAdapter(
                                         "drinkImage" to image.toString(),
                                         "drinkName" to nameWine.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "drinkPrice" to priceWine.text.toString(),
-                                        "discountWine" to discountWine.text.toString(),
+                                        "drinkPrice" to finalWinePrice.text.toString(),
+                                        "drinkDiscount" to discount.toString(),
                                         "drinkUnit" to unitWine.text.toString(),
                                         "drinkQty" to wineQty.toString(),
                                         "wine" to wine.toString(),
@@ -1233,6 +1542,14 @@ class AddProductAdapter(
         val priceWhiskey = dv.findViewById<EditText>(R.id.priceWhiskey)
         val discountWhiskey = dv.findViewById<EditText>(R.id.discountWhiskey)
         val unitWhiskey = dv.findViewById<EditText>(R.id.unitWhiskey)
+        val finalWhiskeyPrice = dv.findViewById<TextView>(R.id.finalWhiskyPrice)
+         if (discountWhiskey.text!!.isEmpty() || discountWhiskey.text.toString() == "0"){
+
+             discount = "noDiscount"
+         }
+         else{
+             discount = "discount"
+         }
 
         val mechRef = db.collection("storeowner").document(user!!.uid)
         mechRef.get()
@@ -1245,8 +1562,8 @@ class AddProductAdapter(
                         "drinkImage" to image.toString(),
                         "drinkName" to nameWhiskey.text.toString(),
                         "ownerUid" to user!!.uid.toString(),
-                        "drinkPrice" to priceWhiskey.text.toString(),
-                        "discountWhiskey" to discountWhiskey.text.toString(),
+                        "drinkPrice" to finalWhiskeyPrice.text.toString(),
+                        "drinkDiscount" to discount.toString(),
                         "drinkUnit" to unitWhiskey.text.toString(),
                         "drinkQty" to whiskeyQty.toString(),
                         "whiskey" to whiskey.toString(),
@@ -1267,8 +1584,8 @@ class AddProductAdapter(
                                         "drinkImage" to image.toString(),
                                         "drinkName" to nameWhiskey.text.toString(),
                                         "ownerUid" to user!!.uid.toString(),
-                                        "drinkPrice" to priceWhiskey.text.toString(),
-                                        "discountWhiskey" to discountWhiskey.text.toString(),
+                                        "drinkPrice" to finalWhiskeyPrice.text.toString(),
+                                        "drinkDiscount" to discount.toString(),
                                         "drinkUnit" to unitWhiskey.text.toString(),
                                         "drinkQty" to whiskeyQty.toString(),
                                         "whiskey" to whiskey.toString(),
