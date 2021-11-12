@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootAddDrinks"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/layoutWhiskey"
                 android:layout_width="match_parent"
-                android:padding="10dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pink"
-                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="Whiskey &amp; Spirits"
-                    android:gravity="center"/>
+                    android:textColor="@color/pink"
+                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -58,11 +59,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                             android:id="@+id/nameWhiskey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -92,9 +92,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -113,11 +113,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,47 +147,83 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="Discount/Offers (Optional)"
+                        android:text="Percentage(%)Discount(Optional)"
                         android:textColor="@color/black" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="price"
-                        app:hintTextColor="@color/colorPrimary"
-
-                        >
+                        android:hint="Percentage Discount"
+                        app:hintTextColor="@color/colorPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/discountWhiskey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Calculated Final Drink Price"
+                        android:textColor="@color/black" />
+                    
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                        
+                            android:textSize="15sp"
+                            android:text="0"
+                            android:id="@+id/finalWhiskyPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:textSize="15sp"
+                            android:text="Ksh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+                        
+                    </LinearLayout>
+                    
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -216,16 +251,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -235,19 +267,16 @@
                         android:textColor="@color/black" />
 
 
-
                     <Button
                         android:id="@+id/imageWhiskey"
-                        android:layout_gravity="center"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_gravity="center"
                         android:text="Take Photo"
-                        android:textColor="#989898"
                         android:textAllCaps="false"
+                        android:textColor="#989898"
                         android:textSize="16sp" />
-
-
 
 
                 </LinearLayout>
@@ -255,76 +284,73 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <Button
-                        android:id="@+id/buttonWhiskey"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/quantum_googgreen"
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:text="done"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancelWhiskey"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/quantum_googred"
-                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content"
-                        android:text="cancel"/>
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googred"
+                        android:text="cancel"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:layout_margin="5dp"
+                        android:id="@+id/buttonWhiskey"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googgreen"
+                        android:text="done"
+                        android:textColor="@color/white" />
+                    
+                    
 
 
                 </LinearLayout>
+
+             
 
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/layoutWine"
                 android:layout_width="match_parent"
-                android:padding="10dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pink"
-                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="Wines &amp; Champagne"
-                    android:gravity="center"/>
+                    android:textColor="@color/pink"
+                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -343,11 +369,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -369,7 +394,7 @@
                             android:id="@+id/nameWine"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -377,9 +402,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -398,11 +423,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -433,24 +457,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="Discount/Offers (Optional)"
+                        android:text="Percentage(%) Discount(Optional)"
                         android:textColor="@color/black" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="price"
+                        android:hint="Percentage Discount"
                         app:hintTextColor="@color/colorPrimary"
 
                         >
@@ -465,16 +488,54 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Calculated Final Drink Price"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+
+                            android:textSize="15sp"
+                            android:text="0"
+                            android:id="@+id/finalWinePrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:textSize="15sp"
+                            android:text="Ksh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -502,16 +563,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -523,16 +581,14 @@
 
                     <Button
                         android:id="@+id/imageWine"
-                        android:layout_gravity="center"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_gravity="center"
                         android:text="Take Photo"
-                        android:textColor="#989898"
                         android:textAllCaps="false"
+                        android:textColor="#989898"
                         android:textSize="16sp" />
-
-
 
 
                 </LinearLayout>
@@ -540,76 +596,70 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <Button
-                        android:id="@+id/buttonWine"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/quantum_googgreen"
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:text="done"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancelWine"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/quantum_googred"
-                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content"
-                        android:text="cancel"/>
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googred"
+                        android:text="cancel"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/buttonWine"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googgreen"
+                        android:text="done"
+                        android:textColor="@color/white" />
 
 
                 </LinearLayout>
+              
 
             </LinearLayout>
 
             <LinearLayout
-               android:visibility="gone"
                 android:id="@+id/layoutBeers"
                 android:layout_width="match_parent"
-                android:padding="10dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pink"
-                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="Beers, Ciders &amp; Alcopop"
-                    android:gravity="center"/>
+                    android:textColor="@color/pink"
+                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -628,11 +678,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -654,7 +703,7 @@
                             android:id="@+id/nameBeers"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -662,9 +711,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -683,11 +732,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -718,24 +766,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="Discount/Offers (Optional)"
+                        android:text="Percentage(%) Discount (Optional)"
                         android:textColor="@color/black" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="price"
+                        android:hint="Percentage Discount"
                         app:hintTextColor="@color/colorPrimary"
 
                         >
@@ -750,15 +797,53 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Calculated Final Drink Price"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+
+                            android:textSize="15sp"
+                            android:text="0"
+                            android:id="@+id/finalBeerPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:textSize="15sp"
+                            android:text="Ksh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -786,16 +871,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -805,19 +887,16 @@
                         android:textColor="@color/black" />
 
 
-
                     <Button
                         android:id="@+id/imageBeers"
-                        android:layout_gravity="center"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_gravity="center"
                         android:text="Take Photo"
-                        android:textColor="#989898"
                         android:textAllCaps="false"
+                        android:textColor="#989898"
                         android:textSize="16sp" />
-
-
 
 
                 </LinearLayout>
@@ -825,76 +904,71 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <Button
-                        android:id="@+id/buttonBeers"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/quantum_googgreen"
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:text="done"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancelBeers"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/quantum_googred"
-                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content"
-                        android:text="cancel"/>
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googred"
+                        android:text="cancel"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/buttonBeers"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googgreen"
+                        android:text="done"
+                        android:textColor="@color/white" />
 
 
                 </LinearLayout>
+
+             
 
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/layoutSoftDrinks"
                 android:layout_width="match_parent"
-                android:padding="10dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pink"
-                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="Soft Drinks &amp; Cocktails"
-                    android:gravity="center"/>
+                    android:textColor="@color/pink"
+                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -913,11 +987,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -939,7 +1012,7 @@
                             android:id="@+id/nameSoftDrinks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -947,9 +1020,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -968,11 +1041,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1003,24 +1075,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="Discount/Offers (Optional)"
+                        android:text="Percentage(%)Discount (Optional)"
                         android:textColor="@color/black" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="price"
+                        android:hint="Percentage Discount"
                         app:hintTextColor="@color/colorPrimary"
 
                         >
@@ -1035,15 +1106,54 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Calculated Final Drink Price"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+
+                            android:textSize="15sp"
+                            android:text="0"
+                            android:id="@+id/finalSoftPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:textSize="15sp"
+                            android:text="Ksh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1071,16 +1181,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1090,19 +1197,16 @@
                         android:textColor="@color/black" />
 
 
-
                     <Button
                         android:id="@+id/imageSoftDrinks"
-                        android:layout_gravity="center"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_gravity="center"
                         android:text="Take Photo"
-                        android:textColor="#989898"
                         android:textAllCaps="false"
+                        android:textColor="#989898"
                         android:textSize="16sp" />
-
-
 
 
                 </LinearLayout>
@@ -1110,46 +1214,41 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"
-                    android:layout_marginTop="5sp"/>
+                    android:layout_marginTop="5sp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <Button
-                        android:id="@+id/buttonSoftDrinks"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:backgroundTint="@color/quantum_googgreen"
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:text="done"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancelSoftDrinks"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:backgroundTint="@color/quantum_googred"
-                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content"
-                        android:text="cancel"/>
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googred"
+                        android:text="cancel"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/buttonSoftDrinks"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/quantum_googgreen"
+                        android:text="done"
+                        android:textColor="@color/white" />
 
 
                 </LinearLayout>
+
+                
 
             </LinearLayout>
 

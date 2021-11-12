@@ -8,6 +8,8 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +25,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.jettech.sherehe20.Helper.AnimationUtil
+import com.jettech.sherehe20.Helper.AnimationUtil.shakeView
 import com.jettech.sherehe20.MainActivity
 import com.jettech.sherehe20.R
 import com.jettech.sherehe20.model.AddProduct
@@ -58,12 +62,15 @@ class AddProductAdapter(
     var beers: String = ""
     var SoftDrinksQty: String = ""
     var SoftDrinks: String = ""
+    var discWhisky : String = ""
     lateinit var alertDialog : AlertDialog
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddProductViewHolder {
         val view: View =
             LayoutInflater.from(context).inflate(R.layout.item_add_drinks, parent, false)
+
+
 
 
         return AddProductViewHolder(view)
@@ -140,6 +147,102 @@ class AddProductAdapter(
             }
 
             builder.apply {
+
+
+                val priceWhiskey = dv.findViewById<EditText>(R.id.priceWhiskey)
+                val discountWhiskey = dv.findViewById<EditText>(R.id.discountWhiskey)
+                val finalWhiskey = dv.findViewById<TextView>(R.id.finalWhiskyPrice)
+
+                priceWhiskey.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceWhiskey.text!!.isEmpty() || priceWhiskey.text.toString() == "0") {
+
+                            shakeView(priceWhiskey,context)
+                            Toasty.error(
+                                context, "Please enter Price", Toasty.LENGTH_LONG
+                            ).show()
+
+
+
+                        }
+                        else {
+
+                            if (discountWhiskey.text.toString().equals("")){
+
+                                discWhisky = (0).toString()
+                            }else{
+                                discWhisky = discountWhiskey.text.toString()
+                            }
+
+                            val discount = (100 - discWhisky.toInt())
+                            val finalP =  (s.toString().toInt().toInt()*((discount)*(0.01))).toInt()
+
+                            finalWhiskey.text = finalP.toString()
+
+
+                        }
+
+
+                    }
+                })
+
+                discountWhiskey.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        if (priceWhiskey.text!!.isEmpty()) {
+
+                            shakeView(discountWhiskey,context)
+                            Toasty.error(
+                                context, "Enter Drink Price", Toasty.LENGTH_LONG
+                            ).show()
+
+                            if(discountWhiskey.text!!.count() > 2){
+                                shakeView(discountWhiskey,context)
+                                Toasty.error(
+                                    context, "Incorrect value", Toasty.LENGTH_LONG
+                                ).show()
+                            }
+
+
+                        }
+                        else {
+                            if (discountWhiskey.text.toString().equals("")){
+
+                                discWhisky = (0).toString()
+                            }else{
+                                discWhisky = s.toString()
+                            }
+
+
+                            val discount = (100 - discWhisky.toString().toInt())
+                            val originalPrice = priceWhiskey.text
+                            val finalP =  (originalPrice.toString().toInt()*((discount)*(0.01))).toInt()
+
+                            finalWhiskey.text = finalP.toInt().toString()
+
+
+                        }
+
+
+                    }
+                })
 
                 imageWhiskey.setOnClickListener {
                     onclickimagelistener.getImage(position)
@@ -265,7 +368,6 @@ class AddProductAdapter(
                                 context.getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
                             val image: String =
                                 sharedPref.getString(Constants.IMAGE, "").toString().trim()
-                            Log.d("mumooo", image)
 
                             imageUri = image.toUri()
 
@@ -305,6 +407,7 @@ class AddProductAdapter(
 
                                 return@setOnClickListener
                             }
+
 
                             if (unitWhiskey.text.toString().isEmpty()) {
 
@@ -800,6 +903,8 @@ class AddProductAdapter(
         val priceSoftDrinks = dv.findViewById<EditText>(R.id.priceSoftDrinks)
         val discountSoftDrinks = dv.findViewById<EditText>(R.id.discountSoftDrinks)
         val unitSoftDrinks = dv.findViewById<EditText>(R.id.unitSoftDrinks)
+
+
 
         val mechRef = db.collection("storeowner").document(user!!.uid)
         mechRef.get()

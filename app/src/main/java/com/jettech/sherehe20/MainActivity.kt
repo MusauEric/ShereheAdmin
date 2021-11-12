@@ -783,20 +783,18 @@ class MainActivity : AppCompatActivity(), OnClickImageListener {
                     if (task.isSuccessful) {
 
                         downloadUrl = task.result.toString()
-                        Log.e("RegisterActivity", downloadUrl!!)
+
+                        var sharedPref: SharedPreferences =
+                            getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
+                        val editor = sharedPref.edit()
+                        editor.putString(Constants.IMAGE, downloadUrl)
+                        editor.apply()
+                        progressDialog.dismiss()
+
 
                     }
-                }.addOnCompleteListener {
-
-                    var sharedPref: SharedPreferences =
-                        getSharedPreferences(Constants.APP_SHARED_PREFERENCES, 0)
-                    val editor = sharedPref.edit()
-                    editor.putString(Constants.IMAGE, downloadUrl)
-                    editor.apply()
-                    progressDialog.dismiss()
-
-
                 }
+
                 alertDialog.dismiss()
 
 
